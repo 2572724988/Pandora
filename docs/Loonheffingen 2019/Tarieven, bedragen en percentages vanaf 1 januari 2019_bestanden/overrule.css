@@ -1,0 +1,167 @@
+/**
+ * overrule.css
+ *
+ * Declaraties gemaakt voor de website van de Belastintgdienst t.o.v. de Rijksbrede huisstijl
+ *
+ * @version				1.0.1
+ * @date					2011-02-25
+ * @lastmodified	2017-01-19 
+ * @author		B/CKC 
+ * @link			http://www.belastingdienst.nl
+ *
+ */
+
+/** screen.css
+ * Vertical navigation
+ */
+.nav_page { text-align: center; padding:15px 0; }
+/* .nav_sub ul li a { font-size: 1em; } */
+
+/* NK 200518 screen.css */
+.nav_sub li a { text-decoration: none; display: block; padding: 0.2em 1em 0.2em 3em; width: 17.6em; }
+.nav_sub li.open li a,
+.nav_sub li.active li a { padding: 0.2em 1em 0.2em 4em; width: 16.6em; }
+.nav_sub li.open li.open li a,
+.nav_sub li.open li.active li a { padding: 0.2em 1em 0.2em 5em; width: 15.6em; }
+.nav_sub li.open li.open li.open li a,
+.nav_sub li.open li.open li.active li a { padding: 0.2em 1em 0.2em 6em; width: 14.6em; }
+.nav_sub li.open li.open li.open li.open li a,
+.nav_sub li.open li.open li.open li.active li a { padding: 0.2em 1em 0.2em 7em; width: 13.6em; }
+.nav_sub li.open li.open li.open li.open li.open li a,
+.nav_sub li.open li.open li.open li.open li.active li a { padding: 0.2em 1em 0.2em 8em; width: 12.6em; }
+
+.nav_sub li.open a { background-position: 2em -82px; }
+.nav_sub li.open li.open a { background-position: 3em -82px; }
+.nav_sub li.open li.open li.open a { background-position: 4em -82px; }
+.nav_sub li.open li.open li.open li.open a { background-position: 5em -82px; }
+.nav_sub li.open li.open li.open li.open li.open a { background-position: 6em -82px; }
+/* einde NK 200518 */
+
+.header .nav_bar .nav_main a img, .breadcrumb img {margin-bottom: 0; border:0; }
+.content_main ul { list-style: outside square none; margin-left: 16px; line-height: 16px;}
+/* .content_main ul li { background: none; margin-bottom: 3px; padding-left: 0; } uitgezet i.v.m. video in contentmain */
+.content_main ul li { margin-bottom: 3px; padding-left: 0; } 
+
+/* ol {margin-left: 0;} */
+ul li { margin-bottom: 3px;}
+.search ul { list-style-type: none; margin-left: 0;}
+ul.nav_main a:hover, ul.nav_main a:visited, ul.nav_main a:link {text-decoration: none; color: #000000;}
+.red ul.nav_main a:visited, .red ul.nav_main a:link {text-decoration: none; color: #ffffff;}
+.red ul.nav_main a:hover, .red ul.nav_main .sel a {color: #000000;}
+
+/** template.css
+ * Drop shadow 
+ * 
+ * @section			Drop shadow border around canvas area
+ */
+body {padding-top: 21px; }
+.header { position: absolute; top:0; width:940px; }
+.content_wrapper1 { padding-top: 60px;}
+.with_title_bar .content_wrapper1 { padding-top: 70px;}
+.with_nav_main_sub .content_wrapper1 { padding-top: 65px;}
+.with_title_bar.with_nav_main_sub .content_wrapper1 { padding-top: 95px;}
+.with_nav_main_sub .content_wrapper2 {border-top: 0;} 
+
+/*hack voor alleen Chrome en Safari t.b.v juiste hoogte van hoofdnavigatielijnen*/
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	.nav_main_sub{line-height: 22px;}
+	.content_wrapper1 { padding-top: 59;}
+}
+
+.content_wrapper2 { z-ndex: 999;}
+
+#login .header { width:500px; height: 87px;}
+#login .content_wrapper1 {padding-top:0; margin-top: -5px; }
+
+.content { top: 0px; }
+.footer .ref { height: 25px; width: 956px; position: relative; top: -4px }
+
+.content_main, .content_add, .content_supp, .nav_sub, .breadcrumb {padding-top: 40px;}
+
+.breadcrumb.left {margin: 0 20px 0 0; min-height: 40px;}
+
+/* Menu laten drukken */
+.right .breadcrumb 		{ margin-left:0; }
+	#content .right .content_main{ margin-left:0; left: 0; width: 66.5%; }
+	#content .right .content_add	 { margin-left:0; left: 0; width: 33.5%; }
+	#content .right .wide { width: 100%; }
+	#content .left .nav_sub	{ position: static; width: 100%;}
+
+/* screen.css */
+.branding {position: relative; text-align: center; top: 8px; z-index: 999; height: 87px;}
+.header {padding-top: 95px;}
+.title_bar {height: 30px;}
+.breadcrumb  {padding-top: 5px; min-height: 45px; } 
+ul a:link:hover { text-decoration: underline; color: #0162cd; }
+.nav_sub ul li a:hover { color: #000000; }
+ul#hoofdnavigatie a:hover { text-decoration: none; color: #000000; }
+.func_links ul li a:hover { color: #000000; }
+ul a:visited 		{ color: #154273; }
+ul a:visited:hover 		{ color: #0162cd; }
+/* voor onderstrepinng van enkele links in een niet-hyperlinks lijst */ 
+.content_main ul li a, .content_main ul a:link, .content_main ul a:visited  { text-decoration: underline; }
+.content_main ol li a, .content_main ol a:link, .content_main ol a:visited  { text-decoration: underline; }
+.content_add .box h2, .content_add .box h3, .content_add .box h4 .content_add .box h5 .content_add .box h6 { font-family: Arial,Verdana,sans-serif; }
+
+/** forms.css
+ * Global search
+ *
+ * @section			Global search specific definitions
+ */
+ form {clear: both; }
+.search {right: 50px;}
+.search form input.text {height: 13px; width: 124px;}
+.search form :focus { outline: none; }
+.search { width: 18.55em; }
+.search form input.submit { width: 5em; }
+.search form input.submit, x:-moz-any-link { width: 5em; } /* Firefox only */
+
+/*hack voor alleen Chrome en Safari t.b.v juiste hoogte van de zoekbutton*/
+@media screen and (-webkit-min-device-pixel-ratio:0) {.search form input.submit { height: 1.8em;} }
+
+/* type.css */
+h2  { font-weight: bold;}
+.content_add h2 { font-size: 1.5em; font-weight: bold; line-height: 1.2; margin-top: 0;}
+/* * .box.open.lighter h2, * .box.open.lighter h3 {padding-top: 5px; padding-bottom: 0; } 20-07-2011 FK uitgezet, 
+geeft een foute marge van een mod box open lighter. De ondermarge van de gekleurde titel is te klein. 
+Het is mij ook niet duidelijk waarom deze regel is opgenomen. In de bd-toolkit staat deze regel niet in de overrule.css*/
+.clusterpagina  .content_main h2 { font-size: 1.2em; font-weight: bold; line-height: 1.3333; margin-bottom: 0.4343em; margin-top: 1em; }
+.content_main a:hover 				{ text-decoration: none; color: #000000; }
+.content_main a:link:hover 			{ text-decoration: underline; color: #0162cd; }
+
+.title_bar h1 { margin-bottom: 0;}
+ul ul, ol ol { margin-bottom: 0em; }
+
+#hoofd_content li li  { font-size: .9em; }
+ul, ol { margin-bottom: 0em; }
+ul, ol { margin-bottom: 1em; }
+
+.skiplink {display: none;}
+
+/*  grids.css screen.css type.css*/
+.content_main .size12  p a:link, .content_main .size12  p a:visited				{ text-decoration: none; }
+.content_main .size12  p a:hover 		{ text-decoration: underline; }
+#hoofd_content.content_main .size12  ul.hyperlinks li a:link, #hoofd_content.content_main .size12  ul.hyperlinks li a:visited	{ text-decoration: none; }
+#hoofd_content.content_main .size12  ul.hyperlinks li a:hover		{ text-decoration: underline; }
+.content_main .size12  h3 					{ font-size: 1.25em; }
+
+.line 															{ float: left; width: 100%; }
+.size12 														{ height: auto; }
+
+/* breedte specifiek voor de Handboeken Douane*/
+.handboek .nav_sub li a { width: 24.8em; }
+.handboek .nav_sub li.open li a,
+.handboek .nav_sub li.active li a { width: 23.8em; }
+.handboek .nav_sub li.open li.open li a,
+.handboek .nav_sub li.open li.active li a { width: 22.8em; }
+.handboek .nav_sub li.open li.open li.open li a,
+.handboek .nav_sub li.open li.open li.active li a { width: 21.8em; }
+.handboek .nav_sub li.open li.open li.open li.open li a,
+.handboek .nav_sub li.open li.open li.open li.active li a { width: 20.8em; }
+.handboek .nav_sub li.open li.open li.open li.open li.open li a,
+.handboek .nav_sub li.open li.open li.open li.open li.active li a { width: 19.8em; }
+
+/* colors.css */
+.light_blue .nav_sub li a:hover 	{ background-color: #ddeff8 !important; }
+.red .nav_sub li a:hover 					{ background-color: #f2bfbb !important; }
+.mint_green .nav_sub li a:hover 	{ background-color: #d6f1e9 !important; }

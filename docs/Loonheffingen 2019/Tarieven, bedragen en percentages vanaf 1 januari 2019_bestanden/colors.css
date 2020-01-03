@@ -1,0 +1,392 @@
+/**
+ * colors.css
+ *
+ * @date					2011-02-25
+ * @lastmodified	2011-02-25 10:51
+ * @author		B/CKC 
+ * @link			http://www.belastingdienst.nl
+ * @cssdoc		version 1.0
+ *
+ */
+
+/* Colors (red) */
+.red .title_bar { background: #f9dfdd; }
+.red .nav_bar { background: #d52b1e; }
+.red .nav_main a { color: #fff; }
+.red .nav_main a:hover { background: #f2bfbb; }
+.red .sel a { background-color: #f2bfbb; color: #000; }
+.red .content_wrapper2 { border-top: 10px solid #f2bfbb;  }
+
+.red .visual { background-color: #f9dfdd; }
+.red .tong { background-color: #d52b1e; }
+.red .tong h1, .red .tong h2, .red .tong h3, .red .tong h4, .red .tong h5,
+.red .tong h6, .red .tong ul, .red .tong ol, .red .tong dl, .red .tong p, .red .tong a, .red .tong blockquote { color: #fff; }
+
+.red .search li a, .red .search li a:hover { color: #fff; }
+
+.red .nav_sub li a:hover { background-color: #fab2bd !important; }
+
+.red .nav_sub li.open a,
+.red .nav_sub li.open li.open a,
+.red .nav_sub li.open li.open li.open a,
+.red .nav_sub li.open li.open li.open li.open a,
+.red .nav_sub li.open li.open li.open li.open li.open a { background-color: #f9dfdd; }
+
+.red .nav_sub li.active a,
+.red .nav_sub li.open li.active a,
+.red .nav_sub li.open li.open li.active a,
+.red .nav_sub li.open li.open li.open li.active a,
+.red .nav_sub li.open li.open li.open li.open li.active a,
+.red .nav_sub li.open li.open li.open li.open li.open li.active a { background-color: #f2bfbb; }
+
+.red .hl_lighter { background-color: #f2bfbb; }
+.red .hl_lightest { background-color: #f9dfdd; }
+
+.red .hl_color5 { background-color: #e17000; }	/* orange instead of red */
+
+.red .banner,
+.red .banner a,
+.red .banner h3,
+.red .banner h4 { color: #fff; }
+
+.red .banner.hl_lighter,
+.red .banner.hl_lightest,
+.red .banner.hl_color5,
+.red .banner.hl_color11,
+.red .banner.hl_color12,
+.red .banner.hl_color13,
+.red .banner.hl_color14,
+.red .banner.hl_color15,
+.red .banner.hl_lighter a,
+.red .banner.hl_lightest a,
+.red .banner.hl_color5 a,
+.red .banner.hl_color11 a,
+.red .banner.hl_color12 a,
+.red .banner.hl_color13 a,
+.red .banner.hl_color14 a,
+.red .banner.hl_color15 a,
+.red .banner.hl_lighter h3,
+.red .banner.hl_lightest h3,
+.red .banner.hl_color5 h3,
+.red .banner.hl_color11 h3,
+.red .banner.hl_color12 h3,
+.red .banner.hl_color13 h3,
+.red .banner.hl_color14 h3,
+.red .banner.hl_color15 h3,
+.red .banner.hl_lighter h4,
+.red .banner.hl_lightest h4,
+.red .banner.hl_color5 h4,
+.red .banner.hl_color11 h4,
+.red .banner.hl_color12 h4,
+.red .banner.hl_color13 h4,
+.red .banner.hl_color14 h4,
+.red .banner.hl_color15 h4 { color: #000; }
+
+.red .box.open.lighter h2,
+.red .box.open.lighter h3,
+.red .box.open.lighter h4,
+.red .box.open.lighter h5,
+.red .box.open.lighter h6 { background-color: #f2bfbb; }
+.red .box.open.lighter { border: 1px solid #f2bfbb; }
+
+.red .box.open.lightest h2,
+.red .box.open.lightest h3,
+.red .box.open.lightest h4,
+.red .box.open.lightest h5,
+.red .box.open.lightest h6 { background-color: #f9dfdd; }
+.red .box.open.lightest { border: 1px solid #f9dfdd; }
+
+.red .box.closed h2,
+.red .box.closed h3,
+.red .box.closed h4,
+.red .box.closed h5,
+.red .box.closed h6 { background-color: #f2bfbb; }
+.red .box.closed { background-color: #f9dfdd; border: 1px solid #f2bfbb; }
+
+.red .box.open.contrast_lighter h2,
+.red .box.open.contrast_lighter h3,
+.red .box.open.contrast_lighter h4,
+.red .box.open.contrast_lighter h5,
+.red .box.open.contrast_lighter h6 { background-color: #c6b8cf; }
+.red .box.open.contrast_lighter { border: 1px solid #c6b8cf; }
+
+.red .box.open.contrast_lightest h2,
+.red .box.open.contrast_lightest h3,
+.red .box.open.contrast_lightest h4,
+.red .box.open.contrast_lightest h5,
+.red .box.open.contrast_lightest h6 { background-color: #e3dce7; }
+.red .box.open.contrast_lightest { border: 1px solid #e3dce7; }
+
+.red .box.closed.contrast h2,
+.red .box.closed.contrast h3,
+.red .box.closed.contrast h4,
+.red .box.closed.contrast h5,
+.red .box.closed.contrast h6 { background-color: #c6b8cf; }
+.red .box.closed.contrast { background-color: #e3dce7; border: 1px solid #c6b8cf; }
+
+/*	Colors (light-blue) */
+.light_blue .title_bar { background: #eef7fb; }
+.light_blue .nav_bar { background: #8fcae7; }
+.light_blue .nav_main a { color: #000; }
+.light_blue .nav_main a:hover { background: #ddeff8; }
+.light_blue .sel a { background-color: #ddeff8; color: #000; }
+.light_blue .content_wrapper2 { border-top: 10px solid #ddeff8;  }
+
+.light_blue .visual { background-color: #eef7fb; }
+.light_blue .tong { background-color: #8fcae7; }
+.light_blue .tong h1, .light_blue .tong h2, .light_blue .tong h3, .light_blue .tong h4, .light_blue .tong h5,
+.light_blue .tong h6, .light_blue .tong ul, .light_blue .tong ol, .light_blue .tong dl, .light_blue .tong p, .light_blue .tong a, .light_blue .tong blockquote { color: #000; }
+
+.light_blue .search li a, .light_blue .search li a:hover { color: #000; }
+
+.light_blue .nav_sub li a:hover { background-color: #e1f0f2 !important; }
+
+.light_blue .nav_sub li.open a,
+.light_blue .nav_sub li.open li.open a,
+.light_blue .nav_sub li.open li.open li.open a,
+.light_blue .nav_sub li.open li.open li.open li.open a,
+.light_blue .nav_sub li.open li.open li.open li.open li.open a { background-color: #eef7fb; }
+
+.light_blue .nav_sub li.active a,
+.light_blue .nav_sub li.open li.active a,
+.light_blue .nav_sub li.open li.open li.active a,
+.light_blue .nav_sub li.open li.open li.open li.active a,
+.light_blue .nav_sub li.open li.open li.open li.open li.active a,
+.light_blue .nav_sub li.open li.open li.open li.open li.open li.active a { background-color: #ddeff8; }
+
+.light_blue .hl_lighter { background-color: #ddeff8; }
+.light_blue .hl_lightest { background-color: #eef7fb; }
+
+.light_blue .hl_color11 { background-color: #e17000; }	/* orange instead of light-blue */
+
+.light_blue .banner,
+.light_blue .banner a,
+.light_blue .banner h3,
+.light_blue .banner h4 { color: #fff; }
+
+.light_blue .banner.hl_lighter,
+.light_blue .banner.hl_lightest,
+.light_blue .banner.hl_color11,
+.light_blue .banner.hl_color12,
+.light_blue .banner.hl_color13,
+.light_blue .banner.hl_color14,
+.light_blue .banner.hl_color15,
+.light_blue .banner.hl_lighter a,
+.light_blue .banner.hl_lightest a,
+.light_blue .banner.hl_color11 a,
+.light_blue .banner.hl_color12 a,
+.light_blue .banner.hl_color13 a,
+.light_blue .banner.hl_color14 a,
+.light_blue .banner.hl_color15 a,
+.light_blue .banner.hl_lighter h3,
+.light_blue .banner.hl_lightest h3,
+.light_blue .banner.hl_color11 h3,
+.light_blue .banner.hl_color12 h3,
+.light_blue .banner.hl_color13 h3,
+.light_blue .banner.hl_color14 h3,
+.light_blue .banner.hl_color15 h3,
+.light_blue .banner.hl_lighter h4,
+.light_blue .banner.hl_lightest h4,
+.light_blue .banner.hl_color11 h4,
+.light_blue .banner.hl_color12 h4,
+.light_blue .banner.hl_color13 h4,
+.light_blue .banner.hl_color14 h4,
+.light_blue .banner.hl_color15 h4 { color: #000; }
+
+.light_blue .box.open.lighter h2,
+.light_blue .box.open.lighter h3,
+.light_blue .box.open.lighter h4,
+.light_blue .box.open.lighter h5,
+.light_blue .box.open.lighter h6 { background-color: #ddeff8; }
+.light_blue .box.open.lighter { border: 1px solid #ddeff8; }
+
+.light_blue .box.open.lightest h2,
+.light_blue .box.open.lightest h3,
+.light_blue .box.open.lightest h4,
+.light_blue .box.open.lightest h5,
+.light_blue .box.open.lightest h6 { background-color: #eef7fb; }
+.light_blue .box.open.lightest { border: 1px solid #eef7fb; }
+
+.light_blue .box.closed h2,
+.light_blue .box.closed h3,
+.light_blue .box.closed h4,
+.light_blue .box.closed h5,
+.light_blue .box.closed h6 { background-color: #ddeff8; }
+.light_blue .box.closed { background-color: #eef7fb; border: 1px solid #ddeff8; }
+
+.light_blue .box.open.contrast_lighter h2,
+.light_blue .box.open.contrast_lighter h3,
+.light_blue .box.open.contrast_lighter h4,
+.light_blue .box.open.contrast_lighter h5,
+.light_blue .box.open.contrast_lighter h6 { background-color: #e5b2cf; }
+.light_blue .box.open.contrast_lighter { border: 1px solid #e5b2cf; }
+
+.light_blue .box.open.contrast_lightest h2,
+.light_blue .box.open.contrast_lightest h3,
+.light_blue .box.open.contrast_lightest h4,
+.light_blue .box.open.contrast_lightest h5,
+.light_blue .box.open.contrast_lightest h6 { background-color: #f2d9e7; }
+.light_blue .box.open.contrast_lightest { border: 1px solid #f2d9e7; }
+
+.light_blue .box.closed.contrast h2,
+.light_blue .box.closed.contrast h3,
+.light_blue .box.closed.contrast h4,
+.light_blue .box.closed.contrast h5,
+.light_blue .box.closed.contrast h6 { background-color: #e5b2cf; }
+.light_blue .box.closed.contrast { background-color: #f2d9e7; border: 1px solid #e5b2cf; }
+
+/* Colors (mint-green) */
+.mint_green .title_bar { background: #ebf8f4; }
+.mint_green .nav_bar { background: #76d2b6; }
+.mint_green .nav_main a { color: #000; }
+.mint_green .nav_main a:hover { background: #d6f1e9; }
+.mint_green .sel a { background-color: #d6f1e9; color: #000; }
+.mint_green .content_wrapper2 { border-top: 10px solid #d6f1e9;  }
+
+.mint_green .visual { background-color: #ebf8f4; }
+.mint_green .tong { background-color: #76d2b6; }
+.mint_green .tong h1, .mint_green .tong h2, .mint_green .tong h3, .mint_green .tong h4, .mint_green .tong h5,
+.mint_green .tong h6, .mint_green .tong ul, .mint_green .tong ol, .mint_green .tong dl, .mint_green .tong p, .mint_green .tong a, .mint_green .tong blockquote { color: #000; }
+
+.mint_green .search li a, .mint_green .search li a:hover { color: #000; }
+
+.mint_green .nav_sub li a:hover { background-color: #cbe6db !important; }
+
+.mint_green .nav_sub li.open a,
+.mint_green .nav_sub li.open li.open a,
+.mint_green .nav_sub li.open li.open li.open a,
+.mint_green .nav_sub li.open li.open li.open li.open a,
+.mint_green .nav_sub li.open li.open li.open li.open li.open a { background-color: #ebf8f4; }
+
+.mint_green .nav_sub li.active a,
+.mint_green .nav_sub li.open li.active a,
+.mint_green .nav_sub li.open li.open li.active a,
+.mint_green .nav_sub li.open li.open li.open li.active a,
+.mint_green .nav_sub li.open li.open li.open li.open li.active a,
+.mint_green .nav_sub li.open li.open li.open li.open li.open li.active a { background-color: #d6f1e9; }
+
+.mint_green .hl_lighter { background-color: #d6f1e9; }
+.mint_green .hl_lightest { background-color: #ebf8f4; }
+
+.mint_green .hl_color15 { background-color: #e17000; }	/* orange instead of mint-green */
+
+.mint_green .banner,
+.mint_green .banner a,
+.mint_green .banner h3,
+.mint_green .banner h4 { color: #fff; }
+
+.mint_green .banner.hl_lighter,
+.mint_green .banner.hl_lightest,
+.mint_green .banner.hl_color11,
+.mint_green .banner.hl_color12,
+.mint_green .banner.hl_color13,
+.mint_green .banner.hl_color14,
+.mint_green .banner.hl_color15,
+.mint_green .banner.hl_lighter a,
+.mint_green .banner.hl_lightest a,
+.mint_green .banner.hl_color11 a,
+.mint_green .banner.hl_color12 a,
+.mint_green .banner.hl_color13 a,
+.mint_green .banner.hl_color14 a,
+.mint_green .banner.hl_color15 a,
+.mint_green .banner.hl_lighter h3,
+.mint_green .banner.hl_lightest h3,
+.mint_green .banner.hl_color11 h3,
+.mint_green .banner.hl_color12 h3,
+.mint_green .banner.hl_color13 h3,
+.mint_green .banner.hl_color14 h3,
+.mint_green .banner.hl_color15 h3,
+.mint_green .banner.hl_lighter h4,
+.mint_green .banner.hl_lightest h4,
+.mint_green .banner.hl_color11 h4,
+.mint_green .banner.hl_color12 h4,
+.mint_green .banner.hl_color13 h4,
+.mint_green .banner.hl_color14 h4,
+.mint_green .banner.hl_color15 h4 { color: #000; }
+
+.mint_green .box.open.lighter h2,
+.mint_green .box.open.lighter h3,
+.mint_green .box.open.lighter h4,
+.mint_green .box.open.lighter h5,
+.mint_green .box.open.lighter h6 { background-color: #d6f1e9; }
+.mint_green .box.open.lighter { border: 1px solid #d6f1e9; }
+
+.mint_green .box.open.lightest h2,
+.mint_green .box.open.lightest h3,
+.mint_green .box.open.lightest h4,
+.mint_green .box.open.lightest h5,
+.mint_green .box.open.lightest h6 { background-color: #ebf8f4; }
+.mint_green .box.open.lightest { border: 1px solid #ebf8f4; }
+
+.mint_green .box.closed h2,
+.mint_green .box.closed h3,
+.mint_green .box.closed h4,
+.mint_green .box.closed h5,
+.mint_green .box.closed h6 { background-color: #d6f1e9; }
+.mint_green .box.closed { background-color: #ebf8f4; border: 1px solid #d6f1e9; }
+
+.mint_green .box.open.contrast_lighter h2,
+.mint_green .box.open.contrast_lighter h3,
+.mint_green .box.open.contrast_lighter h4,
+.mint_green .box.open.contrast_lighter h5,
+.mint_green .box.open.contrast_lighter h6 { background-color: #c3dbb6; }
+.mint_green .box.open.contrast_lighter { border: 1px solid #c3dbb6; }
+
+.mint_green .box.open.contrast_lightest h2,
+.mint_green .box.open.contrast_lightest h3,
+.mint_green .box.open.contrast_lightest h4,
+.mint_green .box.open.contrast_lightest h5,
+.mint_green .box.open.contrast_lightest h6 { background-color: #e1eddb; }
+.mint_green .box.open.contrast_lightest { border: 1px solid #e1eddb; }
+
+.mint_green .box.closed.contrast h2,
+.mint_green .box.closed.contrast h3,
+.mint_green .box.closed.contrast h4,
+.mint_green .box.closed.contrast h5,
+.mint_green .box.closed.contrast h6 { background-color: #c3dbb6; }
+.mint_green .box.closed.contrast { background-color: #e1eddb; border: 1px solid #c3dbb6; }
+
+/*
+* Transparent
+*
+* @section			Set the background to transparent for not 'open' and 'active' anchors
+*/
+.red .nav_sub li.open li a,
+.red .nav_sub li.open li.open li a,
+.red .nav_sub li.open li.open li.open li a,
+.red .nav_sub li.open li.open li.open li.open li a,
+.red .nav_sub li.open li.open li.open li.open li.open li a,
+.light_blue .nav_sub li.open li a,
+.light_blue .nav_sub li.open li.open li a,
+.light_blue .nav_sub li.open li.open li.open li a,
+.light_blue .nav_sub li.open li.open li.open li.open li a,
+.light_blue .nav_sub li.open li.open li.open li.open li.open li a,
+.mint_green .nav_sub li.open li a,
+.mint_green .nav_sub li.open li.open li a,
+.mint_green .nav_sub li.open li.open li.open li a,
+.mint_green .nav_sub li.open li.open li.open li.open li a,
+.mint_green .nav_sub li.open li.open li.open li.open li.open li a
+ { background-color: transparent; }
+
+
+/*
+* Banners
+*
+* @section			Set the background (highlight) color for banners
+*/
+
+.hl_color1 { background-color: #623327; }	/* dark-brown */
+.hl_color2 { background-color: #42145f; }	/* purple */
+.hl_color3 { background-color: #275937; }	/* dark-green */
+.hl_color4 { background-color: #ca005a; }	/* ruby */
+.hl_color5 { background-color: #d52b1e; }	/* red */
+.hl_color6 { background-color: #a90061; }	/* violet */
+.hl_color7 { background-color: #777c00; }	/* moss-green */
+.hl_color8 { background-color: #94710a; }	/* brown */
+.hl_color9 { background-color: #39870c; }	/* green */
+.hl_color10 { background-color: #007bc7; }	/* azure */
+.hl_color11 { background-color: #8fcae7; }	/* light-blue */
+.hl_color12 { background-color: #f092cd; }	/* pink */
+.hl_color13 { background-color: #f9e11e; }	/* yellow */
+.hl_color14 { background-color: #ffb612; }	/* dark-yellow */
+.hl_color15 { background-color: #76d2b6; }	/* mint-green */

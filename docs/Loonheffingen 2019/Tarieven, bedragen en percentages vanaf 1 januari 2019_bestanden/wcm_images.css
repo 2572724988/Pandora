@@ -1,0 +1,74 @@
+﻿/* Drop shadow  */
+.container { background: url(skin/sh_left.png) repeat-y scroll left top #FFFFFF; }
+.header { background: url(skin/sh_top.png) left top no-repeat; }
+.header span { background: url(skin/sh_top-right.png) right top no-repeat;}
+.content_wrapper1 { background: url(skin/sh_right.png) right top repeat-y; }
+.footer { background: url(skin/sh_bot.png) left bottom no-repeat; }
+.footer .ref { background: url(skin/logo_footer.png) no-repeat scroll center center transparent; }
+.footer span { background: url(skin/sh_bot-right.png) right bottom no-repeat; }
+
+/* Vertical navigation */
+.nav_sub li a { background: url(skin/arrows.png) 1.8em 7px no-repeat;}
+.nav_sub li.open li a,
+.nav_sub li.active li a { background: url(skin/arrows.png) 2.8em 7px no-repeat; }
+.nav_sub li.open li.open li a,
+.nav_sub li.open li.active li a { background: url(skin/arrows.png) 3.8em 7px no-repeat; }
+.nav_sub li.open li.open li.open li a,
+.nav_sub li.open li.open li.active li a { background: url(skin/arrows.png) 4.8em 7px no-repeat; }
+.nav_sub li.open li.open li.open li.open li a,
+.nav_sub li.open li.open li.open li.active li a { background: url(skin/arrows.png) 5.8em 7px no-repeat; }
+.nav_sub li.open li.open li.open li.open li.open li a,
+.nav_sub li.open li.open li.open li.open li.active li a { background: url(skin/arrows.png) 6.8em 7px no-repeat; }
+.nav_sub li.open li.open li.open li.open li.open li.active li a { background: url(skin/arrows.png) 7.8em 7px no-repeat; }
+.nav_sub li.open li.open li.open li.open li.open li.open li.active li a { background: url(skin/arrows.png) 8.8em 7px no-repeat; }
+.nav_sub li.open li.open li.open li.open li.open li.open li.open li.active li a { background: url(skin/arrows.png) 9.8em 7px no-repeat; }
+.nav_sub li.open li.open li.open li.open li.open li.open li.open li.open li.active li a { background: url(skin/arrows.png) 10.8em 7px no-repeat; }
+
+/* Content */ 
+.breadcrumb .imgreplacement { background-image: url(skin/arrows.png);}
+h2.header_link a:link, h2.header_link a:visited { background: url(skin/arrows.png) right -179px no-repeat; }
+
+/* Lists */
+ul.hyperlinks li { background: url(skin/arrows.png) left 6px no-repeat; }
+.bd-arrows li, a.bd-arrows , .bd-arrows dt		{ background-image: url(skin/arrows_diag.png); background-repeat: no-repeat;}	
+ul.hyperlinks li { background: url(skin/arrows_diag.png) -93px -45px no-repeat; }
+ul.external li { background: url(skin/arrows_diag.png) -60px -78px no-repeat;  }
+
+/* pagenavigation */
+.nav_page a.prev { background: url(skin/arrows.png) left -469px no-repeat; }
+.nav_page a.next { background: url(skin/arrows.png) right 4px no-repeat; }
+
+/* sitemap */
+.list_sitemap li { background: transparent url(skin/sm_hor_line.gif) left 1.2em no-repeat; }
+.list_sitemap .last_item { background: transparent url(skin/sm_last_item.gif) left 0.2em no-repeat; }
+
+/* tool box links */
+/* 111110 MdB CSS regel uitgezet ter voorkoming van broken links. Plaatje nergens te vinden op OTM en TIS. */
+/* .toolbox a { background-image: url(skin/sh_icons.png);} */
+
+/* Message + info box */
+.message_err { background-image: url(skin/message_err.png); }
+.message_info { background-image: url(skin/message_info.png); }
+.message_letop { background-image: url(skin/message_letop.gif); }
+
+/* icons */
+/* .bd-icons { background-image: url(skin/icons_diag.png); background-repeat: no-repeat; } */
+p.bd-icons, .content_main ul.bd-icons  li, .maincolumn ul.bd-icons  li , a .bd-icons	{ background-image: url(skin/icons_diag.png); background-repeat: no-repeat; }
+
+/* Readspeaker */
+.clRspLinkAan a { background-image: url(skin/rsp_speaker.gif);}
+.clPdfLeesvoor { list-style-image: url(skin/rsp_speaker.gif);}
+
+/* overige eigen toevoegingen */
+.bd-lees-verder a { background: url(skin/arrows.png) no-repeat scroll left 3px; }
+
+.ww_levensmoment table tr td a { background: url(skin/arrows.png) left 3px no-repeat; }
+
+/* Overzichten */
+.nav_page span.prevDisabled	{padding-left: 10px; background:url(skin/arrow_grey_left.png) left 4px no-repeat;}
+.nav_page span.nextDisabled	{padding-right: 10px; background:url(skin/arrow_grey_right.png) right 4px no-repeat;}
+
+/* Begin Cookie opt-in v2*/ 
+.cookie {background: url(skin/cookie_opt-in_v2/cookiebar-shadow-end.png) no-repeat 0 100%; /* Bottom background with shadow */}
+.cookie p {background: url(skin/cookie_opt-in_v2/cookiebar-shadow-repeater.png) repeat-y; /* Main lightgreen background with shadow */}
+/* Einde Cookie opt-in v2*/ 

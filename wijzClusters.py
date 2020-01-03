@@ -1,0 +1,1116 @@
+﻿from login import hoofdMenu
+from PyQt5.QtCore import Qt, QAbstractTableModel, QRegExp
+from PyQt5.QtGui import QFont, QPixmap, QRegExpValidator, QIcon
+from PyQt5.QtWidgets import QWidget, QTableView, QDialog, QLabel,\
+       QGridLayout, QPushButton, QMessageBox, QLineEdit, QComboBox
+from sqlalchemy import (Table, Column, Integer, String, Float, MetaData,\
+                         create_engine, select, update)
+
+def refresh(keuze, m_email, self):
+    self.close()
+    toonClusters(keuze, m_email)
+    
+def updateOK():
+    msg = QMessageBox()
+    msg.setStyleSheet("color: black;  background-color: gainsboro")
+    msg.setIcon(QMessageBox.Information)
+    msg.setText('Je gegevens zijn aangepast!')
+    msg.setWindowTitle('Clusters invoeren')
+    msg.exec_()
+
+def invoerOK():
+    msg = QMessageBox()
+    msg.setStyleSheet("color: black;  background-color: gainsboro")
+    msg.setIcon(QMessageBox.Information)
+    msg.setText('Invoer gelukt')
+    msg.setWindowTitle('Clusters invoeren')
+    msg.exec_()
+    
+def calcBestaat():
+    msg = QMessageBox()
+    msg.setStyleSheet("color: black;  background-color: gainsboro")
+    msg.setIcon(QMessageBox.Information)
+    msg.setText('Calculatieregel bestaat al\nen is verrekend met\ningebrachte hoeveelheid!')
+    msg.setWindowTitle('Clusters invoeren')
+    msg.exec_()   
+
+def windowSluit(self, m_email):
+    self.close()
+    hoofdMenu(m_email)
+    
+def ongKeuze():
+    msg = QMessageBox()
+    msg.setStyleSheet("color: black;  background-color: gainsboro")
+    msg.setWindowIcon(QIcon('./images/logos/logo.jpg'))
+    msg.setIcon(QMessageBox.Warning)
+    msg.setText('Ongeldige keuze')
+    msg.setWindowTitle('Clusters invoeren')               
+    msg.exec_() 
+        
+def geenRecord():
+    msg = QMessageBox()
+    msg.setStyleSheet("color: black;  background-color: gainsboro")
+    msg.setWindowIcon(QIcon('./images/logos/logo.jpg'))
+    msg.setIcon(QMessageBox.Warning)
+    msg.setText('Geen cluster gevonden\nmaak een andere selektie\nof maak een nieuwe cluster s.v.p.!')
+    msg.setWindowTitle('Clusters invoeren')               
+    msg.exec_() 
+        
+def zoeken(m_email):
+    class Widget(QDialog):
+        def __init__(self, parent=None):
+            super(Widget, self).__init__(parent)
+            self.setWindowTitle("Cluster selektie")
+            self.setWindowIcon(QIcon('./images/logos/logo.jpg'))
+    
+            self.setFont(QFont('Arial', 10))
+                              
+            self.Keuze = QLabel()
+            k0Edit = QComboBox()
+            k0Edit.setFixedWidth(340)
+            k0Edit.setFont(QFont("Arial",10))
+            k0Edit.setStyleSheet("color: black;  background-color: gainsboro")
+            k0Edit.addItem('         Sorteersleutel Clustergroepen')
+            k0Edit.addItem('0. Alle Clusters')
+            k0Edit.addItem('AA-AL. Spoorstaven + lasmiddelen')
+            k0Edit.addItem('BA-BK. Liggers + bevestiging')
+            k0Edit.addItem('CA-CK. Overwegen + overwegbeveiliging')
+            k0Edit.addItem('DA-DK. Steenslag + grond aanvulling')
+            k0Edit.addItem('EA-EK. Wissel + baanconstrukties')
+            k0Edit.addItem('FA-FK. Ondergrondse infrastruktuur')
+            k0Edit.addItem('GA-GK. Treinbeheersing + seinen')
+            k0Edit.addItem('HA-HK. Bovenleiding + draagconstruktie')
+            k0Edit.addItem('JA-JK. Voedingen + Onderstations')
+            k0Edit.activated[str].connect(self.k0Changed)
+    
+      
+            grid = QGridLayout()
+            grid.setSpacing(20)
+                          
+            lbl = QLabel()
+            pixmap = QPixmap('./images/logos/verbinding.jpg')
+            lbl.setPixmap(pixmap)
+            grid.addWidget(lbl , 0, 0, 1, 2)
+                        
+            grid.addWidget(k0Edit, 1, 1)
+            
+            self.setLayout(grid)
+            self.setGeometry(500, 300, 150, 150)
+            
+            grid.addWidget(QLabel('\u00A9 2017 all rights reserved dj.jansen@casema.nl'), 3, 0, 1, 2, Qt.AlignCenter)
+            
+            logo = QLabel()
+            pixmap = QPixmap('./images/logos/logo.jpg')
+            logo.setPixmap(pixmap)
+            grid.addWidget(logo , 0, 1, 1, 1, Qt.AlignRight)
+   
+            applyBtn = QPushButton('Zoeken')
+            applyBtn.clicked.connect(self.accept)
+    
+            grid.addWidget(applyBtn, 2, 1, 1, 1, Qt.AlignRight)
+            applyBtn.setFont(QFont("Arial",10))
+            applyBtn.setFixedWidth(100)
+            applyBtn.setStyleSheet("color: black;  background-color: gainsboro")
+            
+            cancelBtn = QPushButton('Sluiten')
+            cancelBtn.clicked.connect(lambda: windowSluit(self, m_email))
+    
+            grid.addWidget(cancelBtn, 2, 1, 1, 1,Qt.AlignCenter)
+            cancelBtn.setFont(QFont("Arial",10))
+            cancelBtn.setFixedWidth(100)
+            cancelBtn.setStyleSheet("color: black;  background-color: gainsboro")
+           
+        def k0Changed(self, text):
+            self.Keuze.setText(text)
+            
+        def returnk0(self):
+            return self.Keuze.text()
+                 
+        @staticmethod
+        def getData(parent=None):
+            dialog = Widget(parent)
+            dialog.exec_()
+            return [dialog.returnk0()]       
+
+    window = Widget()
+    data = window.getData()
+    keuze = ''
+    if not data[0]:
+        ongKeuze()
+        zoeken(m_email)
+    elif data[0][0] == '0':
+        keuze = ''
+    elif data[0]:
+        keuze = data[0][0]
+    toonClusters(keuze, m_email)  
+  
+def toonClusters(keuze, m_email):              
+    class MyWindow(QDialog):
+        def __init__(self, data_list, header, *args):
+            QWidget.__init__(self, *args,)
+            self.setWindowTitle('Cluster Calculatie')
+            self.setWindowIcon(QIcon('./images/logos/logo.jpg')) 
+            self.setWindowFlags(self.windowFlags()| Qt.WindowSystemMenuHint |
+                              Qt.WindowMinMaxButtonsHint)
+            self.setFont(QFont('Arial', 10))
+            
+            grid = QGridLayout()
+            grid.setSpacing(20)
+            
+            table_model = MyTableModel(self, data_list, header)
+            table_view = QTableView()
+            table_view.setModel(table_model)
+            font = QFont("Arial", 10)
+            table_view.setFont(font)
+            table_view.resizeColumnsToContents()
+            table_view.setSelectionBehavior(QTableView.SelectRows)
+            table_view.clicked.connect(showSelection)
+            grid.addWidget(table_view, 0, 0, 1, 16)
+            
+            lbl = QLabel()
+            pixmap = QPixmap('./images/logos/verbinding.jpg')
+            lbl.setPixmap(pixmap)
+            grid.addWidget(lbl, 1, 0, 1, 2)
+       
+            logo = QLabel()
+            pixmap = QPixmap('./images/logos/logo.jpg')
+            logo.setPixmap(pixmap)
+            grid.addWidget(logo , 1, 15, 1, 1, Qt.AlignRight)
+            
+            freshBtn = QPushButton('Verversen')
+            freshBtn.clicked.connect(lambda: refresh(keuze, m_email, self))
+
+            freshBtn.setFont(QFont("Arial",10))
+            freshBtn.setFixedWidth(100) 
+            freshBtn.setStyleSheet("color: black;  background-color: gainsboro")
+   
+            grid.addWidget(freshBtn, 1, 14, 1, 1, Qt.AlignRight)
+        
+            sluitBtn = QPushButton('Sluiten')
+            sluitBtn.clicked.connect(self.close)
+
+            sluitBtn.setFont(QFont("Arial",10))
+            sluitBtn.setFixedWidth(100) 
+            sluitBtn.setStyleSheet("color: black;  background-color: gainsboro") 
+            
+            grid.addWidget(sluitBtn, 1, 13, 1, 1, Qt.AlignRight)
+            
+            grid.addWidget(QLabel('\u00A9 2017 all rights reserved dj.jansen@casema.nl'), 1, 0, 1, 16, Qt.AlignCenter)
+            
+            self.setLayout(grid)
+            self.setGeometry(50, 50, 1800, 900)
+            self.setLayout(grid)
+
+    class MyTableModel(QAbstractTableModel):
+        def __init__(self, parent, mylist, header, *args):
+            QAbstractTableModel.__init__(self, parent, *args)
+            self.mylist = mylist
+            self.header = header
+        def rowCount(self, parent):
+            return len(self.mylist)
+        def columnCount(self, parent):
+            return len(self.mylist[0])
+        def data(self, index, role):
+            if not index.isValid():
+                return None
+            elif role != Qt.DisplayRole:
+                return None
+            return str(self.mylist[index.row()][index.column()])
+        def headerData(self, col, orientation, role):
+            if orientation == Qt.Horizontal and role == Qt.DisplayRole:
+                return self.header[col]
+            return None
+             
+    header = ['Clusternr', 'Omschrijving', 'Prijs', 'Eenheid', 'Materialen', 'Lonen',\
+              'Diensten', 'Materiëel', 'Inhuur', 'uren_constr', 'uren_mont','uren_retourlas',\
+              'uren_bfi', 'uren_voeding', 'uren_bvl', 'uren_spoorleg', 'uren_spoorlas',\
+              'uren_inhuur', 'Sleuvengraver', 'Persapparaat', 'Atlaskraan',\
+              'Kraan_groot', 'Mainliner', 'Hormachine', 'Wagon', 'Locomotor',\
+              'Locomotief', 'Montagewagen', 'Stormobiel', 'uren_telecom', 'robeltrein']
+    
+    metadata = MetaData()
+    clusters = Table('clusters', metadata,
+        Column('clusterID', String, primary_key=True),
+        Column('omschrijving', String),
+        Column('prijs', Float),
+        Column('eenheid', String),
+        Column('materialen', Float),
+        Column('lonen', Float),
+        Column('diensten', Float),
+        Column('materieel', Float),
+        Column('inhuur', Float),
+        Column('uren_constr', Float),
+        Column('uren_mont', Float),
+        Column('uren_retourlas', Float),
+        Column('uren_bfi', Float),
+        Column('uren_voeding', Float),
+        Column('uren_bvl', Float),
+        Column('uren_spoorleg', Float),
+        Column('uren_spoorlas', Float),
+        Column('uren_inhuur', Float),
+        Column('sleuvengraver', Float),
+        Column('persapparaat', Float),
+        Column('atlaskraan', Float),
+        Column('kraan_groot', Float),
+        Column('mainliner', Float),
+        Column('hormachine', Float),
+        Column('wagon', Float),
+        Column('locomotor', Float),
+        Column('locomotief', Float),
+        Column('montagewagen', Float),
+        Column('stormobiel', Float),
+        Column('uren_telecom', Float),
+        Column('robeltrein', Float))
+       
+    engine = create_engine('postgresql+psycopg2://postgres@localhost/bisystem')
+    con = engine.connect()
+        
+    sel = select([clusters]).where(clusters.c.clusterID.ilike(keuze+'%'))\
+                              .order_by(clusters.c.clusterID)
+
+    if con.execute(sel).fetchone():
+        rp = con.execute(sel)
+    else:
+        geenRecord
+        zoeken(m_email)
+      
+    data_list=[]
+    for row in rp:
+        data_list += [(row)]
+
+    def showSelection(idx):
+        clusternr = idx.data()
+        if idx.column() == 0:
+            engine = create_engine('postgresql+psycopg2://postgres@localhost/bisystem')
+            con = engine.connect()
+            selcl = select([clusters]).where(clusters.c.clusterID == clusternr)
+            rpsel = con.execute(selcl).first()
+            
+            class MainWindow(QDialog):
+                def __init__(self):
+                    QDialog.__init__(self)
+                    
+                    grid = QGridLayout()
+                    grid.setSpacing(20)
+                    self.setWindowTitle("Wijzigen Cluster")
+                    self.setWindowIcon(QIcon('./images/logos/logo.jpg')) 
+                    
+                    self.setFont(QFont('Arial', 10))   
+                    
+                    self.Omschrijving = QLabel()
+                    q1Edit = QLineEdit(rpsel[1])
+                    q1Edit.setFont(QFont("Arial",10))
+                    q1Edit.textChanged.connect(self.q1Changed) 
+                    reg_ex = QRegExp("^.{0,49}$")
+                    input_validator = QRegExpValidator(reg_ex, q1Edit)
+                    q1Edit.setValidator(input_validator)
+                                    
+                    self.Prijs = QLabel()
+                    q2Edit = QLineEdit(str(round(rpsel[2],2)))
+                    q2Edit.setFixedWidth(150)
+                    q2Edit.setFont(QFont("Arial",10))
+                    q2Edit.textChanged.connect(self.q2Changed) 
+                    reg_ex = QRegExp("^[0-9.]{0,12}$")
+                    input_validator = QRegExpValidator(reg_ex, q2Edit)
+                    q2Edit.setValidator(input_validator)
+                     
+                    self.Eenheid = QLabel()
+                    q3Edit = QLineEdit(str(rpsel[3]))
+                    q3Edit.setFixedWidth(150)
+                    q3Edit.setFont(QFont("Arial",10))
+                    q3Edit.textChanged.connect(self.q3Changed) 
+                    reg_ex = QRegExp("^.{0,10}$")
+                    input_validator = QRegExpValidator(reg_ex, q3Edit)
+                    q3Edit.setValidator(input_validator)
+                    
+                    self.Materialen = QLabel()
+                    q4Edit = QLineEdit(str(round(rpsel[4],2)))
+                    q4Edit.setFixedWidth(150)
+                    q4Edit.setFont(QFont("Arial",10))
+                    q4Edit.textChanged.connect(self.q4Changed) 
+                    reg_ex = QRegExp("^[0-9.]{0,12}$")
+                    input_validator = QRegExpValidator(reg_ex, q4Edit)
+                    q4Edit.setValidator(input_validator)
+                    q4Edit.setDisabled(True)
+                    
+                    self.Lonen = QLabel()
+                    q5Edit = QLineEdit(str(round(rpsel[5],2)))
+                    q5Edit.setFixedWidth(150)
+                    q5Edit.setFont(QFont("Arial",10))
+                    q5Edit.textChanged.connect(self.q5Changed) 
+                    reg_ex = QRegExp("^[0-9.]{0,12}$")
+                    input_validator = QRegExpValidator(reg_ex, q5Edit)
+                    q5Edit.setValidator(input_validator)
+                    q5Edit.setDisabled(True)
+                    
+                    self.Diensten = QLabel()
+                    q6Edit = QLineEdit(str(round(rpsel[6],2)))
+                    q6Edit.setFixedWidth(150)
+                    q6Edit.setFont(QFont("Arial",10))
+                    q6Edit.textChanged.connect(self.q6Changed) 
+                    reg_ex = QRegExp("^[0-9.]{0,12}$")
+                    input_validator = QRegExpValidator(reg_ex, q6Edit)
+                    q6Edit.setValidator(input_validator)
+                    q6Edit.setDisabled(True)
+                    
+                    self.Materiëel = QLabel()
+                    q7Edit = QLineEdit(str(round(rpsel[7],2)))
+                    q7Edit.setFixedWidth(150)
+                    q7Edit.setFont(QFont("Arial",10))
+                    q7Edit.textChanged.connect(self.q7Changed) 
+                    reg_ex = QRegExp("^[0-9.]{0,12}$")
+                    input_validator = QRegExpValidator(reg_ex, q7Edit)
+                    q7Edit.setValidator(input_validator)
+                    q7Edit.setDisabled(True)
+                    
+                    self.Inhuur = QLabel()
+                    q8Edit = QLineEdit(str(round(rpsel[8],2)))
+                    q8Edit.setFixedWidth(150)
+                    q8Edit.setFont(QFont("Arial",10))
+                    q8Edit.textChanged.connect(self.q8Changed) 
+                    reg_ex = QRegExp("^[0-9.]{0,12}$")
+                    input_validator = QRegExpValidator(reg_ex, q8Edit)
+                    q8Edit.setValidator(input_validator)
+                    q8Edit.setDisabled(True)
+                                   
+                    self.Construktieuren = QLabel()
+                    q9Edit = QLineEdit(str(rpsel[9]))
+                    q9Edit.setFixedWidth(150)
+                    q9Edit.setFont(QFont("Arial",10))
+                    q9Edit.textChanged.connect(self.q9Changed) 
+                    reg_ex = QRegExp("^[0-9.]{0,12}$")
+                    input_validator = QRegExpValidator(reg_ex, q9Edit)
+                    q9Edit.setValidator(input_validator)
+                    
+                    self.Montageuren = QLabel()
+                    q10Edit = QLineEdit(str(rpsel[10]))
+                    q10Edit.setFixedWidth(150)
+                    q10Edit.setFont(QFont("Arial",10))
+                    q10Edit.textChanged.connect(self.q10Changed) 
+                    reg_ex = QRegExp("^[0-9.]{0,12}$")
+                    input_validator = QRegExpValidator(reg_ex, q10Edit)
+                    q10Edit.setValidator(input_validator)
+                    
+                    self.Retourlasuren = QLabel()
+                    q11Edit = QLineEdit(str(rpsel[11]))
+                    q11Edit.setFixedWidth(150)
+                    q11Edit.setFont(QFont("Arial",10))
+                    q11Edit.textChanged.connect(self.q11Changed) 
+                    reg_ex = QRegExp("^[0-9.]{0,12}$")
+                    input_validator = QRegExpValidator(reg_ex, q11Edit)
+                    q11Edit.setValidator(input_validator)
+                    
+                    self.BFIuren = QLabel()
+                    q12Edit = QLineEdit(str(rpsel[12]))
+                    q12Edit.setFixedWidth(150)
+                    q12Edit.setFont(QFont("Arial",10))
+                    q12Edit.textChanged.connect(self.q12Changed) 
+                    reg_ex = QRegExp("^[0-9.]{0,12}$")
+                    input_validator = QRegExpValidator(reg_ex, q12Edit)
+                    q12Edit.setValidator(input_validator)
+                    
+                    self.Telecomuren = QLabel()
+                    q29Edit = QLineEdit(str(rpsel[29]))
+                    q29Edit.setFixedWidth(150)
+                    q29Edit.setFont(QFont("Arial",10))
+                    q29Edit.textChanged.connect(self.q29Changed) 
+                    reg_ex = QRegExp("^[0-9.]{0,12}$")
+                    input_validator = QRegExpValidator(reg_ex, q29Edit)
+                    q29Edit.setValidator(input_validator)      
+                         
+                    self.Voedinguren = QLabel()
+                    q13Edit = QLineEdit(str(rpsel[13]))
+                    q13Edit.setFixedWidth(150)
+                    q13Edit.setFont(QFont("Arial",10))
+                    q13Edit.textChanged.connect(self.q13Changed) 
+                    reg_ex = QRegExp("^[0-9.]{0,12}$")
+                    input_validator = QRegExpValidator(reg_ex, q13Edit)
+                    q13Edit.setValidator(input_validator)
+                    
+                    self.Bvluren = QLabel()
+                    q14Edit = QLineEdit(str(rpsel[14]))
+                    q14Edit.setFixedWidth(150)
+                    q14Edit.setFont(QFont("Arial",10))
+                    q14Edit.textChanged.connect(self.q14Changed) 
+                    reg_ex = QRegExp("^[0-9.]{0,12}$")
+                    input_validator = QRegExpValidator(reg_ex, q14Edit)
+                    q14Edit.setValidator(input_validator)
+                       
+                    self.Spoorleguren = QLabel()
+                    q15Edit = QLineEdit(str(rpsel[15]))
+                    q15Edit.setFixedWidth(150)
+                    q15Edit.setFont(QFont("Arial",10))
+                    q15Edit.textChanged.connect(self.q15Changed) 
+                    reg_ex = QRegExp("^[0-9.]{0,12}$")
+                    input_validator = QRegExpValidator(reg_ex, q15Edit)
+                    q15Edit.setValidator(input_validator)
+                    
+                    self.Spoorlasuren = QLabel()
+                    q16Edit = QLineEdit(str(rpsel[16]))
+                    q16Edit.setFixedWidth(150)
+                    q16Edit.setFont(QFont("Arial",10))
+                    q16Edit.textChanged.connect(self.q16Changed) 
+                    reg_ex = QRegExp("^[0-9.]{0,12}$")
+                    input_validator = QRegExpValidator(reg_ex, q16Edit)
+                    q16Edit.setValidator(input_validator)
+                    
+                    self.Inhuururen = QLabel()
+                    q17Edit = QLineEdit(str(rpsel[17]))
+                    q17Edit.setFixedWidth(150)
+                    q17Edit.setFont(QFont("Arial",10))
+                    q17Edit.textChanged.connect(self.q17Changed) 
+                    reg_ex = QRegExp("^[0-9.]{0,12}$")
+                    input_validator = QRegExpValidator(reg_ex, q17Edit)
+                    q17Edit.setValidator(input_validator)
+                       
+                    self.Sleuvengraver = QLabel()
+                    q18Edit = QLineEdit(str(rpsel[18]))
+                    q18Edit.setFixedWidth(150)
+                    q18Edit.setFont(QFont("Arial",10))
+                    q18Edit.textChanged.connect(self.q18Changed) 
+                    reg_ex = QRegExp("^[0-9.]{0,12}$")
+                    input_validator = QRegExpValidator(reg_ex, q18Edit)
+                    q18Edit.setValidator(input_validator)
+                            
+                    self.Persapparaat = QLabel()
+                    q19Edit = QLineEdit(str(rpsel[19]))
+                    q19Edit.setFixedWidth(150)
+                    q19Edit.setFont(QFont("Arial",10))
+                    q19Edit.textChanged.connect(self.q19Changed) 
+                    reg_ex = QRegExp("^[0-9.]{0,12}$")
+                    input_validator = QRegExpValidator(reg_ex, q19Edit)
+                    q19Edit.setValidator(input_validator)
+                    
+                    self.Atlaskraan = QLabel()
+                    q20Edit = QLineEdit(str(rpsel[20]))
+                    q20Edit.setFixedWidth(150)
+                    q20Edit.setFont(QFont("Arial",10))
+                    q20Edit.textChanged.connect(self.q20Changed) 
+                    reg_ex = QRegExp("^[0-9.]{0,12}$")
+                    input_validator = QRegExpValidator(reg_ex, q20Edit)
+                    q20Edit.setValidator(input_validator)
+                    
+                    self.Kraan_groot = QLabel()
+                    q21Edit = QLineEdit(str(rpsel[21]))
+                    q21Edit.setFixedWidth(150)
+                    q21Edit.setFont(QFont("Arial",10))
+                    q21Edit.textChanged.connect(self.q21Changed) 
+                    reg_ex = QRegExp("^[0-9.]{0,12}$")
+                    input_validator = QRegExpValidator(reg_ex, q21Edit)
+                    q21Edit.setValidator(input_validator)
+                    
+                    self.Mainliner = QLabel()
+                    q22Edit = QLineEdit(str(rpsel[22]))
+                    q22Edit.setFixedWidth(150)
+                    q22Edit.setFont(QFont("Arial",10))
+                    q22Edit.textChanged.connect(self.q22Changed) 
+                    reg_ex = QRegExp("^[0-9.]{0,12}$")
+                    input_validator = QRegExpValidator(reg_ex, q22Edit)
+                    q22Edit.setValidator(input_validator)
+                    
+                    self.Hormachine = QLabel()
+                    q23Edit = QLineEdit(str(rpsel[23]))
+                    q23Edit.setFixedWidth(150)
+                    q23Edit.setFont(QFont("Arial",10))
+                    q23Edit.textChanged.connect(self.q23Changed) 
+                    reg_ex = QRegExp("^[0-9.]{0,12}$")
+                    input_validator = QRegExpValidator(reg_ex, q23Edit)
+                    q23Edit.setValidator(input_validator)
+                    
+                    self.Wagon = QLabel()
+                    q24Edit = QLineEdit(str(rpsel[24]))
+                    q24Edit.setFixedWidth(150)
+                    q24Edit.setFont(QFont("Arial",10))
+                    q24Edit.textChanged.connect(self.q24Changed) 
+                    reg_ex = QRegExp("^[0-9.]{0,12}$")
+                    input_validator = QRegExpValidator(reg_ex, q24Edit)
+                    q24Edit.setValidator(input_validator)
+                    
+                    self.Locomotor = QLabel()
+                    q25Edit = QLineEdit(str(rpsel[25]))
+                    q25Edit.setFixedWidth(150)
+                    q25Edit.setFont(QFont("Arial",10))
+                    q25Edit.textChanged.connect(self.q25Changed) 
+                    reg_ex = QRegExp("^[0-9.]{0,12}$")
+                    input_validator = QRegExpValidator(reg_ex, q25Edit)
+                    q25Edit.setValidator(input_validator)
+        
+                    self.Locomotief = QLabel()
+                    q26Edit = QLineEdit(str(rpsel[26]))
+                    q26Edit.setFixedWidth(150)
+                    q26Edit.setFont(QFont("Arial",10))
+                    q26Edit.textChanged.connect(self.q26Changed) 
+                    reg_ex = QRegExp("^[0-9.]{0,12}$")
+                    input_validator = QRegExpValidator(reg_ex, q26Edit)
+                    q26Edit.setValidator(input_validator)
+                    
+                    self.Stormobiel = QLabel()
+                    q27Edit = QLineEdit(str(rpsel[27]))
+                    q27Edit.setFixedWidth(150)
+                    q27Edit.setFont(QFont("Arial",10))
+                    q27Edit.textChanged.connect(self.q27Changed) 
+                    reg_ex = QRegExp("^[0-9.]{0,12}$")
+                    input_validator = QRegExpValidator(reg_ex, q27Edit)
+                    q27Edit.setValidator(input_validator)
+                    
+                    self.Montagewagen = QLabel()
+                    q28Edit = QLineEdit(str(rpsel[28]))
+                    q28Edit.setFixedWidth(150)
+                    q28Edit.setFont(QFont("Arial",10))
+                    q28Edit.textChanged.connect(self.q28Changed) 
+                    reg_ex = QRegExp("^[0-9.]{0,12}$")
+                    input_validator = QRegExpValidator(reg_ex, q28Edit)
+                    q28Edit.setValidator(input_validator)
+                    
+                    self.Robeltrein = QLabel()
+                    q30Edit = QLineEdit(str(rpsel[30]))
+                    q30Edit.setFixedWidth(150)
+                    q30Edit.setFont(QFont("Arial",10))
+                    q30Edit.textChanged.connect(self.q30Changed) 
+                    reg_ex = QRegExp("^[0-9.]{0,12}$")
+                    input_validator = QRegExpValidator(reg_ex, q30Edit)
+                    q30Edit.setValidator(input_validator)
+                                    
+                    grid = QGridLayout()
+                    grid.setSpacing(20)
+                    
+                    lbl1 = QLabel('Clusternummer')  
+                    lbl1.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    grid.addWidget(lbl1, 1, 0)
+                    
+                    lbl2 = QLabel(clusternr)
+                    grid.addWidget(lbl2, 1, 1)
+                           
+                    lbl3 = QLabel('Omschrijving')  
+                    lbl3.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    grid.addWidget(lbl3, 2, 0)
+                    grid.addWidget(q1Edit, 2, 1, 1, 3) # RowSpan 1 ,ColumnSpan 3
+                                                         
+                    lbl4 = QLabel('Prijs')  
+                    lbl4.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    grid.addWidget(lbl4, 3, 0)
+                    grid.addWidget(q2Edit, 3, 1)
+                    
+                    lbl5 = QLabel('Eenheid')  
+                    lbl5.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    grid.addWidget(lbl5, 4, 0)
+                    grid.addWidget(q3Edit, 4, 1)
+                    
+                    lbl6 = QLabel('Materialen')  
+                    lbl6.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    grid.addWidget(lbl6, 5, 0)
+                    grid.addWidget(q4Edit, 5, 1)
+                    
+                    lbl7 = QLabel('Lonen')  
+                    lbl7.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    grid.addWidget(lbl7, 6, 0)
+                    grid.addWidget(q5Edit, 6, 1)
+                    
+                    lbl8 = QLabel('Diensten')  
+                    lbl8.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    grid.addWidget(lbl8, 7, 0)
+                    grid.addWidget(q6Edit, 7, 1)
+                    
+                    lbl9 = QLabel('Materiëel')  
+                    lbl9.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    grid.addWidget(lbl9, 8, 0)
+                    grid.addWidget(q7Edit, 8, 1)
+                    
+                    lbl10 = QLabel('Inhuur')  
+                    lbl10.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    grid.addWidget(lbl10, 9, 0)
+                    grid.addWidget(q8Edit, 9, 1)
+                    
+                    lbl20 = QLabel('Sleuvengraven-uren')  
+                    lbl20.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    grid.addWidget(lbl20, 10, 0)
+                    grid.addWidget(q18Edit, 10, 1)
+                      
+                    lbl21 = QLabel('Persapparaat-uren')  
+                    lbl21.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    grid.addWidget(lbl21, 11, 0)
+                    grid.addWidget(q19Edit, 11, 1)
+                    
+                    lbl22 = QLabel('Atlaskraan-uren')  
+                    lbl22.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    grid.addWidget(lbl22, 12, 0)
+                    grid.addWidget(q20Edit, 12, 1)
+                    
+                    lbl23 = QLabel('Kraan_groot-uren')  
+                    lbl23.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    grid.addWidget(lbl23, 13, 0)
+                    grid.addWidget(q21Edit, 13, 1)
+                    
+                    lbl24 = QLabel('Mainliner-uren')  
+                    lbl24.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    grid.addWidget(lbl24, 14, 0)
+                    grid.addWidget(q22Edit, 14, 1)
+                    
+                    lbl25 = QLabel('Hormachine-uren')  
+                    lbl25.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    grid.addWidget(lbl25, 15, 0)
+                    grid.addWidget(q23Edit, 15, 1)
+                    
+                    lbl26 = QLabel('Wagon-uren')  
+                    lbl26.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    grid.addWidget(lbl26, 16, 0)
+                    grid.addWidget(q24Edit, 16, 1)
+                    
+                    lbl27 = QLabel('Locomotor-uren')  
+                    lbl27.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    grid.addWidget(lbl27, 3, 2)
+                    grid.addWidget(q25Edit, 3, 3)
+                    
+                    lbl28 = QLabel('Locomotief-uren')  
+                    lbl28.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    grid.addWidget(lbl28, 4, 2)
+                    grid.addWidget(q26Edit, 4, 3)
+                    
+                    lbl29 = QLabel('Stormobiel-uren')  
+                    lbl29.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    grid.addWidget(lbl29, 5, 2)
+                    grid.addWidget(q27Edit, 5, 3)
+                    
+                    lbl30 = QLabel('Montagewagen-uren')  
+                    lbl30.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    grid.addWidget(lbl30, 6, 2)
+                    grid.addWidget(q28Edit, 6, 3)
+                    
+                    lbl31 = QLabel('Robeltrein-uren')  
+                    lbl31.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    grid.addWidget(lbl31, 7, 2)
+                    grid.addWidget(q30Edit, 7, 3)
+                    
+                    lbl19 = QLabel('Inhuur-uren')  
+                    lbl19.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    grid.addWidget(lbl19, 8, 2)
+                    grid.addWidget(q17Edit, 8, 3)      
+                    
+                    lbl11 = QLabel('Construktie-uren')  
+                    lbl11.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    grid.addWidget(lbl11, 9, 2)
+                    grid.addWidget(q9Edit, 9, 3)
+                        
+                    lbl12 = QLabel('Montage-uren')  
+                    lbl12.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    grid.addWidget(lbl12, 10, 2)
+                    grid.addWidget(q10Edit, 10, 3)
+                    
+                    lbl13 = QLabel('Retourlas-uren')  
+                    lbl13.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    grid.addWidget(lbl13, 11, 2)
+                    grid.addWidget(q11Edit, 11, 3)
+                    
+                    lbl14 = QLabel('BFI-uren')  
+                    lbl14.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    grid.addWidget(lbl14, 12, 2)
+                    grid.addWidget(q12Edit, 12, 3)
+                    
+                    lbl19 = QLabel('Telecom-uren')  
+                    lbl19.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    grid.addWidget(lbl19, 13, 2)
+                    grid.addWidget(q29Edit, 13, 3)
+                                                              
+                    lbl15 = QLabel('Voeding-uren')  
+                    lbl15.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    grid.addWidget(lbl15, 14, 2)
+                    grid.addWidget(q13Edit, 14, 3)
+                 
+                    lbl16 = QLabel('Bovenleiding-uren')
+                    lbl16.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    grid.addWidget(lbl16, 15, 2)
+                    grid.addWidget(q14Edit, 15, 3)
+                    
+                    lbl17 = QLabel('Spoorleg-uren')  
+                    lbl17.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    grid.addWidget(lbl17, 16, 2)
+                    grid.addWidget(q15Edit, 16, 3)
+                    
+                    lbl18 = QLabel('Spoorlas-uren')  
+                    lbl18.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    grid.addWidget(lbl18, 17, 2)
+                    grid.addWidget(q16Edit, 17, 3)
+          
+                    lbl = QLabel()
+                    pixmap = QPixmap('./images/logos/verbinding.jpg')
+                    lbl.setPixmap(pixmap)
+                    grid.addWidget(lbl, 0, 0, 1, 1, Qt.AlignRight)
+                                     
+                    logo = QLabel()
+                    pixmap = QPixmap('./images/logos/logo.jpg')
+                    logo.setPixmap(pixmap)
+                    grid.addWidget(logo , 0, 3, 1 , 1, Qt.AlignRight)
+                    
+                    grid.addWidget(QLabel('Wijzigen Cluster'), 0, 1, 1, 2, Qt.AlignCenter)
+                                                    
+                    grid.addWidget(QLabel('\u00A9 2017 all rights reserved dj.jansen@casema.nl'), 19, 1, 1, 3)
+                      
+                    self.setLayout(grid)
+                    self.setGeometry(400, 50, 150, 150)
+            
+                    applyBtn = QPushButton('Wijzig')
+                    applyBtn.clicked.connect(self.accept)
+            
+                    grid.addWidget(applyBtn, 18, 3, 1, 1, Qt.AlignRight)
+                    applyBtn.setFont(QFont("Arial",10))
+                    applyBtn.setFixedWidth(100)
+                    applyBtn.setStyleSheet("color: black;  background-color: gainsboro")
+                    
+                    closeBtn = QPushButton('Sluiten')
+                    closeBtn.clicked.connect(self.close)
+            
+                    grid.addWidget(closeBtn, 18, 2, 1, 2, Qt.AlignCenter)
+                    closeBtn.setFont(QFont("Arial",10))
+                    closeBtn.setFixedWidth(100)
+                    closeBtn.setStyleSheet("color: black;  background-color: gainsboro")
+                                             
+                def q1Changed(self,text):
+                    self.Omschrijving.setText(text)
+            
+                def q2Changed(self,text):
+                    self.Prijs.setText(text)
+            
+                def q3Changed(self,text):
+                    self.Eenheid.setText(text)
+             
+                def q4Changed(self,text):
+                    self.Materialen.setText(text)
+                    
+                def q5Changed(self,text):
+                    self.Lonen.setText(text)
+                    
+                def q6Changed(self,text):
+                    self.Diensten.setText(text)
+                    
+                def q7Changed(self,text):
+                    self.Materiëel.setText(text)
+                    
+                def q8Changed(self,text):
+                    self.Inhuur.setText(text)
+                
+                def q9Changed(self,text):
+                    self.Construktieuren.setText(text)
+                    
+                def q10Changed(self,text):
+                    self.Montageuren.setText(text)
+                       
+                def q11Changed(self,text):
+                    self.Retourlasuren.setText(text)
+                    
+                def q12Changed(self,text):
+                    self.BFIuren.setText(text)
+                    
+                def q13Changed(self,text):
+                    self.Voedinguren.setText(text)
+                    
+                def q14Changed(self,text):
+                    self.Bvluren.setText(text)
+                    
+                def q15Changed(self,text):
+                    self.Spoorleguren.setText(text)
+                    
+                def q16Changed(self,text):
+                    self.Spoorlasuren.setText(text)
+                    
+                def q17Changed(self,text):
+                    self.Inhuururen.setText(text)
+                    
+                def q18Changed(self,text):
+                    self.Sleuvengraver.setText(text)
+                    
+                def q19Changed(self,text):
+                    self.Persapparaat.setText(text)
+                    
+                def q20Changed(self,text):
+                    self.Atlaskraan.setText(text)
+                    
+                def q21Changed(self,text):
+                    self.Kraan_groot.setText(text)
+                    
+                def q22Changed(self,text):
+                    self.Mainliner.setText(text)
+                    
+                def q23Changed(self,text):
+                    self.Hormachine.setText(text)
+                    
+                def q24Changed(self,text):
+                    self.Wagon.setText(text)
+                    
+                def q25Changed(self,text):
+                    self.Locomotor.setText(text)
+                    
+                def q26Changed(self,text):
+                    self.Locomotief.setText(text)
+                    
+                def q27Changed(self,text):
+                    self.Stormobiel.setText(text)
+                    
+                def q28Changed(self,text):
+                    self.Montagewagen.setText(text)
+                    
+                def q29Changed(self,text):
+                    self.Telecomuren.setText(text)
+               
+                def q30Changed(self,text):
+                    self.Robeltrein.setText(text)
+                              
+                def returnq1(self):
+                    return self.Omschrijving.text()
+                
+                def returnq2(self):
+                    return self.Prijs.text()
+                
+                def returnq3(self):
+                    return self.Eenheid.text()
+                
+                def returnq4(self):
+                    return self.Materialen.text()
+            
+                def returnq5(self):
+                    return self.Lonen.text()
+            
+                def returnq6(self):
+                    return self.Diensten.text()
+                
+                def returnq7(self):
+                    return self.Materiëel.text()
+                      
+                def returnq8(self):
+                    return self.Inhuur.text()
+                
+                def returnq9(self):
+                    return self.Construktieuren.text()
+                
+                def returnq10(self):
+                    return self.Montageuren.text()
+                
+                def returnq11(self):
+                    return self.Retourlasuren.text()
+                
+                def returnq12(self):
+                    return self.BFIuren.text()
+                
+                def returnq13(self):
+                    return self.Voedinguren.text()
+                
+                def returnq14(self):
+                    return self.Bvluren.text()
+                
+                def returnq15(self):
+                    return self.Spoorleguren.text()
+                
+                def returnq16(self):
+                    return self.Spoorlasuren.text()
+                
+                def returnq17(self):
+                    return self.Inhuururen.text()
+                
+                def returnq18(self):
+                    return self.Sleuvengraver.text()
+                
+                def returnq19(self):
+                    return self.Persapparaat.text()
+                
+                def returnq20(self):
+                    return self.Atlaskraan.text()
+                
+                def returnq21(self):
+                    return self.Kraan_groot.text()
+                
+                def returnq22(self):
+                    return self.Mainliner.text()
+                
+                def returnq23(self):
+                    return self.Hormachine.text()
+              
+                def returnq24(self):
+                    return self.Wagon.text()
+                
+                def returnq25(self):
+                    return self.Locomotor.text()
+                
+                def returnq26(self):
+                    return self.Locomotief.text()
+              
+                def returnq27(self):
+                    return self.Stormobiel.text()
+                
+                def returnq28(self):
+                    return self.Montagewagen.text()
+                
+                def returnq29(self):
+                    return self.Telecomuren.text()
+        
+                def returnq30(self):
+                    return self.Robeltrein.text()
+                                       
+                @staticmethod
+                def getData(parent=None):
+                    dialog = MainWindow()
+                    dialog.exec_()
+                    return [dialog.returnq1(), dialog.returnq2(), dialog.returnq3(),\
+                            dialog.returnq4(), dialog.returnq5(), dialog.returnq6(),\
+                            dialog.returnq7(), dialog.returnq8(), dialog.returnq9(),\
+                            dialog.returnq10(), dialog.returnq11(), dialog.returnq12(),\
+                            dialog.returnq13(), dialog.returnq14(), dialog.returnq15(),\
+                            dialog.returnq16(), dialog.returnq17(), dialog.returnq18(),\
+                            dialog.returnq19(), dialog.returnq20(), dialog.returnq21(),\
+                            dialog.returnq22(), dialog.returnq23(), dialog.returnq24(),\
+                            dialog.returnq25(), dialog.returnq26(),dialog.returnq27(),\
+                            dialog.returnq28(), dialog.returnq29(), dialog.returnq30()]  
+                                       
+            mainWin = MainWindow()
+            data = mainWin.getData()
+            
+            chflag = 0
+            for k in range(0, 30):
+                if data[k]:
+                    chflag = 1
+            if chflag == 0:
+                return
+            if data[0]:
+                ms0 = str(data[0])
+            else:
+                ms0 = rpsel[1]
+            if data[2]:
+                mf2 = data[2]
+            else:
+                mf2= rpsel[3]  
+            if data[3]:
+                mf3 = float(data[3])
+            else:
+                mf3= rpsel[4]
+            if data[5]:
+                mf5 = float(data[5])
+            else:
+                mf5= rpsel[6]
+            if data[8]:
+                mf8 = float(data[8])
+            else:
+                mf8= rpsel[9]
+            if data[9]:
+                mf9 = float(data[9])
+            else:
+                mf9= rpsel[10]
+            if data[10]:
+                mf10 = float(data[10])
+            else:
+                mf10= rpsel[11]     
+            if data[11]:
+                mf11 = float(data[11])
+            else:
+                mf11= rpsel[12]     
+            if data[12]:
+                mf12 = float(data[12])
+            else:
+                mf12= rpsel[13]
+            if data[13]:
+                mf13 = float(data[13])
+            else:
+                mf13= rpsel[14]
+            if data[14]:
+                mf14 = float(data[14])
+            else:
+                mf14= rpsel[15]
+            if data[15]:
+                mf15 = float(data[15])
+            else:
+                mf15= rpsel[16]
+            if data[16]:
+                mf16 = float(data[16])
+            else:
+                mf16= rpsel[17]
+            if data[17]:
+                mf17 = float(data[17])
+            else:
+                mf17 = rpsel[18]
+            if data[18]:
+                mf18 = float(data[18])
+            else:
+                mf18= rpsel[19]
+            if data[19]:
+                mf19 = float(data[19])
+            else:
+                mf19= rpsel[20]
+            if data[20]:
+                mf20 = float(data[20])
+            else:
+                mf20= rpsel[21]
+            if data[21]:
+                mf21 = float(data[21])
+            else:
+                mf21= rpsel[22]
+            if data[22]:
+                mf22 = data[22]
+            else:
+                mf22= rpsel[23]
+            if data[23]:
+                mf23 = float(data[23])
+            else:
+                mf23= rpsel[24]
+            if data[24]:
+                mf24 = float(data[24])
+            else:
+                mf24 = rpsel[25]
+            if data[25]:
+                mf25 = float(data[25])
+            else:
+                mf25 = rpsel[26]
+            if data[26]:
+                mf26 = float(data[26])
+            else:
+                mf26 = rpsel[27]
+            if data[27]:
+                mf27 = float(data[27])
+            else:
+                mf27 = rpsel[28]
+            if data[28]:
+                mf28 = float(data[28])
+            else:
+                mf28 = rpsel[29]
+            if data[29]:
+                mf29 = float(data[29])
+            else:
+                mf29 = rpsel[30]
+            
+            metadata = MetaData()
+            params = Table('params', metadata,
+                Column('paramID', Integer, primary_key=True),
+                Column('tarief', Float),
+                Column('item', String))
+            
+            engine = create_engine('postgresql+psycopg2://postgres@localhost/bisystem')
+            con = engine.connect()
+            selpar = select([params]).order_by(params.c.paramID)
+            rppar = con.execute(selpar).fetchall()
+                                                                 
+            upd = update(clusters).where(clusters.c.clusterID == clusternr).values(
+                omschrijving=ms0, eenheid=mf2, materialen=mf3, uren_constr = mf8,\
+                uren_mont=mf9, uren_retourlas=mf10, uren_bfi=mf11, uren_voeding=mf12,\
+                uren_bvl=mf13, uren_spoorleg=mf14, uren_spoorlas=mf15, uren_inhuur=mf16,\
+                sleuvengraver=mf17, persapparaat=mf18, atlaskraan=mf19, kraan_groot=mf20,\
+                mainliner=mf21, hormachine=mf22, wagon=mf23,locomotor=mf24,locomotief=mf25,\
+                montagewagen=mf26, stormobiel=mf27, uren_telecom=mf28, robeltrein=mf29)
+            con.execute(upd)
+            upd1 = update(clusters).where(clusters.c.clusterID == clusternr).values(\
+                lonen=clusters.c.uren_constr*rppar[8][1]+clusters.c.uren_mont*rppar[9][1]\
+                +clusters.c.uren_retourlas*rppar[10][1]+clusters.c.uren_bfi*rppar[11][1]\
+                +clusters.c.uren_voeding*rppar[12][1]+clusters.c.uren_bvl*rppar[13][1]\
+                +clusters.c.uren_spoorleg*rppar[14][1]+clusters.c.uren_spoorlas*rppar[15][1]\
+                +clusters.c.uren_telecom*rppar[18][1], diensten=mf5,\
+                materieel=clusters.c.sleuvengraver*rppar[19][1]+clusters.c.persapparaat\
+                *rppar[20][1]+clusters.c.atlaskraan*rppar[21][1]+clusters.c.kraan_groot\
+                *rppar[22][1]+clusters.c.mainliner*rppar[23][1]+clusters.c.hormachine\
+                *rppar[24][1]+clusters.c.wagon*rppar[25][1]+clusters.c.locomotor\
+                *rppar[26][1]+clusters.c.locomotief*rppar[27][1]+clusters.c.montagewagen\
+                *rppar[28][1]+clusters.c.stormobiel*rppar[29][1]+clusters.c.robeltrein\
+                *rppar[30][1],inhuur=clusters.c.uren_inhuur*rppar[16][1])
+            con.execute(upd1)
+            upd3 = update(clusters).where(clusters.c.clusterID == clusternr).values(\
+                         prijs = clusters.c.lonen+mf3+mf5+clusters.c.materieel+clusters.c.inhuur)
+            con.execute(upd3)
+            invoerOK()
+        
+    win = MyWindow(data_list, header)
+    win.exec_()
+    zoeken(m_email)

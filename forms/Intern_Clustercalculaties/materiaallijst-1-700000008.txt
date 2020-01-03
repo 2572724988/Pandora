@@ -1,0 +1,15 @@
+Werkorder:   700000008  Calculatie: 1   Datum: 2018-08-24  Blad :  1
+=============================================================================================
+Artikelnr  Omschrijving                        Eenheid       Prijs      Aantal               
+=============================================================================================
+200000720  Zeskantbout,RVS A4,M6x10,DIN933      stuk          1.77      400.00
+200000743  Zeskantbout,RVS A4,M6x20,DIN933      stuk          7.33      400.00
+200001085  Zeskantbout,CU5,M8x30,DIN933         stuk          0.34      400.00
+200001292  Sluitring,RVS A4,M4,DIN125A          100           3.51      400.00
+200001310  Sluitring,RVS A4,M6,DIN125A          100           7.88      400.00
+200001474  Sluitring,koper,M8,DIN125A           100           5.19      400.00
+200001565  Veerring,RVS A4,M6,DIN127B           100           4.06      400.00
+200001607  Veerring,brons,M8,DIN127B            stuk          5.49      400.00
+200037717  Koper Ø 40                           meter       137.02        6.50
+200037729  Messing 40X40mm                      meter        96.07        4.50
+200037730  RVS Ø 80                             meter       126.02        2.80

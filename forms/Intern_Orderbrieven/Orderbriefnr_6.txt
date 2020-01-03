@@ -1,0 +1,35 @@
+
+
+
+Datum: 2019-10-23
+
+
+Interne orderbrief volgnummer: 6
+
+
+
+Bestelbrief voor magazijnartikel: 200000056
+
+Artikelomschrijving: Printer Canon MG 3650
+
+Artikelprijs inclusief opslagen: 56.78
+
+Artikelvoorraad : 3.0
+
+Artikel eenheid: stuk
+
+Artikel miminimum voorraad:  228.0
+
+Bestelsaldo: 5.0
+
+Bestelstatus: True
+
+Reserveringssaldo: 1.0
+
+Categorie: 3
+
+Bestelgrootte voorraadgestuurd: 224.0
+
+Levertermijn :  26 weken
+
+

@@ -1,0 +1,35 @@
+
+
+
+Datum: 2019-10-23
+
+
+Interne orderbrief volgnummer: 5
+
+
+
+Bestelbrief voor magazijnartikel: 200000135
+
+Artikelomschrijving: Harddisk Seagate Barracuda 2TB STBD2000201
+
+Artikelprijs inclusief opslagen: 86.9
+
+Artikelvoorraad : 3.0
+
+Artikel eenheid: stuk
+
+Artikel miminimum voorraad:  111.0
+
+Bestelsaldo: 0.0
+
+Bestelstatus: True
+
+Reserveringssaldo: 1.0
+
+Categorie: 2
+
+Bestelgrootte voorraadgestuurd: 222.0
+
+Levertermijn :  8 weken
+
+

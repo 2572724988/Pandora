@@ -1,0 +1,18 @@
+I tested in Ubuntu and found:
+Most programs are working well in Linux.
+With the latest update from the login script capslock notification is working now with Linux.
+I found a solution for printing listings with Linux see following lines.
+
+Retrieve <printer_name> on Linux terminal:
+lpstat -p -d 
+set default printer with:
+lpoptions -d <printer_name>
+set fonts and margins for printing (A4) with:
+lpoptions -o page-left=18 -o page-right=0 -o page-top=25 -o page-bottom=80 -o cpi=13 -o lpi=6
+Follow these settings exactly for printlists with more pages
+
+The fonts in Linux differ from Windows. (Install Arial, Comic Sans MS and Times)
+pgpass.conf must be renamed in .pgpass in Linux and placed in /home/<user>       (<user> = home directory)
+startup files in Linux:
+place pandora.png from folder LINUX in folder /home/<user>/.icons
+place Pandora.desktop from folder LINUX in /home/<user>/.local/share/applications

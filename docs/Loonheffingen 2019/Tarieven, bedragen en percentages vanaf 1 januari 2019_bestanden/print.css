@@ -1,0 +1,128 @@
+/** 
+ * print.css 
+ * 
+ * Gives some sensible styles for printing pages.
+ * 
+ * @version				1.0 pre
+ * @date					2011-02-25
+ * @lastmodified	2011-02-25 10:51
+ * @author		B/CKC 
+ * @link			http://www.belastingdienst.nl
+ *
+ */
+
+/** 
+ * Layout 
+ * 
+ * @section			Hide parts, turn of background images, etc.
+ */
+
+body, .container, .content_wrapper1 , .content_wrapper2, .header { background: none; }
+hr { background: #ccc; border: none; color: #ccc; height: 2px; margin: 2em 0; padding: 0; width: 100%; }
+
+.skiplink,
+.nav_main,
+.bld-navbar,
+.nav_sub,
+.func_links,
+.search,
+.footer,
+.nav_page,
+.hide,
+.hide-on-print,
+.clRsp,
+.content_add,
+.landingspagina div .media { display: none !important; }
+
+
+/** 
+ * Text 
+ * 
+ * @section			Text definitions for nice printing
+ */
+
+body { color: #000; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 10pt; line-height: 1.5;  }
+p, h1, h2, h3, h4, h5, h6, ul, ol { margin: 0; font-family: "Helvetica Neue", Arial, "Lucida Grande", sans-serif; }
+code { font-family: "Courier New", Monaco, Courier, monospace; font-size: 0.9em; } 
+
+img { margin: 0.9em 1.5em 0.9em 0; }
+a img { border: none; }
+a.bd-icons.rss-light {display: none;}
+ul, ol{ list-style-position: outside; list-style-type: disc !important;}
+dl dt {display: list-item !important; list-style-position: inside;}
+blockquote { font-style: italic; font-size: 0.9em; margin: 1.5em; padding: 1em; }
+
+/** 
+ * Links 
+ * 
+ * @section			Styling of links (anchors) in print
+ */
+a, a:visited  { color: #000; }
+a:link, a:visited { background: transparent; text-decoration: underline; }
+
+a:link:after,
+a:visited:after { content: " [" attr(href) "] "; font-size: 90%; }
+
+.branding a:link:after,
+.branding a:visited:after,
+.breadcrumb a:link:after,
+.breadcrumb a:visited:after,
+.anchors a:link:after,
+.anchors a:visited:after { content: ""; }
+
+/* If you're having trouble printing relative links, uncomment and customize this:
+   (note: This is valid CSS3, but it still won't go through the W3C CSS Validator) */
+/* a[href^="/"]:after { content: " (http://www.yourdomain.com" attr(href) ") "; } */
+
+
+/** 
+ * Tables 
+ * 
+ * @section			Basic table styling for print
+ */
+
+/*table { border: 1px solid #000; }*/
+th, td { border: 1px solid #999; }
+th, td { padding: 0.2em; }
+
+/** 
+ * Specific elements 
+ * 
+ * @section			Specificially styled for print
+ */
+.header { position: absolute; top:0;}
+.header { text-align: center; width: 100%; }
+.header span {display: none;}
+.branding a,
+.branding img,
+.branding { float: none; text-decoration: none; }
+
+.breadcrumb { font-size: 0.9em; }
+.breadcrumb em, .breadcrumb img { display: none;}
+.breadcrumb .imgreplacement {padding: 0 5px 0 3px; background-image: none;}
+.breadcrumb a {text-decoration: none;}
+
+.caption { clear: left; font-size: 0.9em; font-style: italic; margin-top: 0; }
+
+.content_wrapper1 {
+    position: relative;
+}
+.mod, .unit { clear: left; }
+.full img,
+.banner img { float: none; margin: 0; padding: 0; }
+.banner { border: 0.2em solid #000; margin-bottom: 1.5em; padding: 1em; }
+
+.message_letop, .message_info {border: 1px dotted black; background-color: transparent; margin: 0; padding: 5px;}
+.bd-letopkop, .bd-kop {font-weight: bold;}
+
+/* Specifiek voor clusterpagina */
+.clusterpagina .bd-lees-verder {margin-top: 0;}
+
+/* Specifiek voor wrapper */
+.wrapper li.bd-icons.readspeaker {display: none;}
+
+/* Specifiek voor sitemap */
+.sitemap ul.hyperlinks h2 a, .sitemap ul.hyperlinks h3 a, .sitemap ul.hyperlinks h4 a {font-size: 11px;}
+.sitemap ul.hyperlinks {padding-left: 15px;}
+.sitemap ul.hyperlinks li.nivo2 {margin-left: 15px;}
+.sitemap ul.hyperlinks li.nivo3 {margin-left: 30px;}
