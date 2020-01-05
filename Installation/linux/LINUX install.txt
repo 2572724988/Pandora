@@ -12,7 +12,7 @@ lpoptions -o page-left=18 -o page-right=0 -o page-top=25 -o page-bottom=80 -o cp
 Follow these settings exactly for printlists with more pages
 
 Installation Pandora:
-sudo apt get install python3
+sudo apt-get install python3
 with pip3 install:
 pyqt5, pyqtchart, sqlalchemy and psycopg2.
 for installation postgresql follow steps in:
