@@ -119,6 +119,7 @@ def urenMut(maccountnr, mwerknr, m_email):
             k0Edit.addItem('Dokter')
             k0Edit.addItem('Geoorl. verzuim')
             k0Edit.addItem('Ong. verzuim')
+            k0Edit.setCurrentIndex(1)
             k0Edit.activated[str].connect(self.k0Changed) 
                         
             self.Werkuren = QLabel()
@@ -299,9 +300,11 @@ def urenMut(maccountnr, mwerknr, m_email):
     con = engine.connect()
     selwerk = select([werken]).where(werken.c.werknummerID == mwerknr)
     rpwerk = con.execute(selwerk).first()
-    
+     
     if data[2]:
         keuze = data[2]
+    elif data[2] == '':
+        keuze = '100%'
     else:
         geenKeuze()
         return(maccountnr, mwerknr)
