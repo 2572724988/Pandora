@@ -70,6 +70,14 @@ def invoerOK():
         msg.setWindowTitle('Uren werkorders muteren')
         msg.exec_()
         
+def geenUren():
+        msg = QMessageBox()
+        msg.setStyleSheet("color: black;  background-color: gainsboro")
+        msg.setIcon(QMessageBox.Warning)
+        msg.setText('Geen uren ingevoerd!')
+        msg.setWindowTitle('Uren werkorders muteren')
+        msg.exec_()
+
 def windowSluit(self, m_email):
     self.close()
     hoofdMenu(m_email)
@@ -106,7 +114,6 @@ def urenMut(maccountnr, mwerknr, m_email):
             k0Edit.setFixedWidth(150)
             k0Edit.setFont(QFont("Arial",10))
             k0Edit.setStyleSheet("color: black;  background-color: gainsboro; selection-background-color: gainsboro; selection-color: black")
-            k0Edit.addItem('     Soort uren')
             k0Edit.addItem('100%')
             k0Edit.addItem('125%')
             k0Edit.addItem('150%')
@@ -119,7 +126,6 @@ def urenMut(maccountnr, mwerknr, m_email):
             k0Edit.addItem('Dokter')
             k0Edit.addItem('Geoorl. verzuim')
             k0Edit.addItem('Ong. verzuim')
-            k0Edit.setCurrentIndex(1)                      #start combobox with default 100%
             k0Edit.activated[str].connect(self.k0Changed) 
                         
             self.Werkuren = QLabel()
@@ -325,6 +331,9 @@ def urenMut(maccountnr, mwerknr, m_email):
     if rpwerk[1] == 'H':
         mwerknr = 1
         werkGereed()
+        return(maccountnr, mwerknr)
+    elif not data[3] or int(data[3]) == 0:
+        geenUren()
         return(maccountnr, mwerknr)
     elif data[3] and keuze == '100%' and mstatus:
         mmeerw100 = float(data[3])

@@ -43,7 +43,7 @@ def werkGereed():
     msg.setStyleSheet("color: black;  background-color: gainsboro")
     msg.setIcon(QMessageBox.Warning)
     msg.setText('Werknummer is afgemeld,\nboekingen niet meer mogelijk!')
-    msg.setWindowTitle('Mutaties diensten werken')
+    msg.setWindowTitle('Mutaties uren werken')
     msg.exec_()
     
 def geenKeuze():
@@ -51,7 +51,7 @@ def geenKeuze():
     msg.setStyleSheet("color: black;  background-color: gainsboro")
     msg.setIcon(QMessageBox.Warning)
     msg.setText('Geen kostensoort keuze gemaakt')
-    msg.setWindowTitle('Mutaties diensten werken')               
+    msg.setWindowTitle('Mutaties uren werken')               
     msg.exec_()
     
 def ongDatum():
@@ -59,7 +59,7 @@ def ongDatum():
     msg.setStyleSheet("color: black;  background-color: gainsboro")
     msg.setIcon(QMessageBox.Warning)
     msg.setText('Ongeldige datum ingevoerd')
-    msg.setWindowTitle('Mutaties diensten werken')               
+    msg.setWindowTitle('Mutaties uren werken')               
     msg.exec_()
         
 def invoerOK():
@@ -67,7 +67,15 @@ def invoerOK():
     msg.setStyleSheet("color: black;  background-color: gainsboro")
     msg.setIcon(QMessageBox.Information)
     msg.setText('Uren zijn ingevoerd')
-    msg.setWindowTitle('Mutaties diensten werken')
+    msg.setWindowTitle('Mutaties uren werken')
+    msg.exec_()
+    
+def geenUren():
+    msg = QMessageBox()
+    msg.setStyleSheet("color: black;  background-color: gainsboro")
+    msg.setIcon(QMessageBox.Information)
+    msg.setText('Geen uren ingevoerd!')
+    msg.setWindowTitle('Mutaties uren werken')
     msg.exec_()
 
 def windowSluit(self, m_email):
@@ -106,7 +114,6 @@ def urenMut(maccountnr, mwerknr, m_email):
             k0Edit.setFixedWidth(150)
             k0Edit.setFont(QFont("Arial",10))
             k0Edit.setStyleSheet("color: black;  background-color: gainsboro; selection-background-color: gainsboro; selection-color: black")
-            k0Edit.addItem('     Soort uren')
             k0Edit.addItem('100%')
             k0Edit.addItem('125%')
             k0Edit.addItem('150%')
@@ -119,7 +126,6 @@ def urenMut(maccountnr, mwerknr, m_email):
             k0Edit.addItem('Dokter')
             k0Edit.addItem('Geoorl. verzuim')
             k0Edit.addItem('Ong. verzuim')
-            k0Edit.setCurrentIndex(1)                        #start combobox with default 100%
             k0Edit.activated[str].connect(self.k0Changed) 
                         
             self.Werkuren = QLabel()
@@ -325,6 +331,10 @@ def urenMut(maccountnr, mwerknr, m_email):
         mwerknr = 1
         werkGereed()
         return(maccountnr, mwerknr)
+    elif not data[3] or int(data[3]) == 0:
+        print(data[3], type(data[3]))
+        geenUren()
+        return(maccountnr, mwerknr)
     elif data[3] and keuze == '100%' and mstatus:
         mmeerw100 = float(data[3])
     elif data[3] and keuze == '100%':
@@ -369,7 +379,7 @@ def urenMut(maccountnr, mwerknr, m_email):
     elif data[3] and keuze == 'Ong. verzuim':
         moverzuim = float(data[3])  
         mstatus = False
-                       
+                         
     metadata = MetaData()
     wrkwnrln = Table('wrkwnrln', metadata,
         Column('wrkwnrurenID', Integer, primary_key=True),
