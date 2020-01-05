@@ -17,6 +17,8 @@ pip3 install pyqt5
 pip3 install pyqtchart
 pip3 install sqlalchemy
 pip3 install psycopg2
+
+Copy .pgpass in /home/postgres  
 for installation postgresql follow steps in:
 https://tecadmin.net/install-postgresql-server-on-ubuntu/
 additional set password in psql with \password
@@ -30,7 +32,7 @@ In tree pgadmin4 databases bisystem restore from bisystem.backup, right click bi
 Copy Pandora with folder structures in /home/postgres
 
 The fonts in Linux differ from Windows. (Install Arial, Comic Sans MS and Times)
-Copy .pgpass in /home/postgres      
+   
 startup files in Linux:
-place pandora.png from folder LINUX in folder /home/postgres/.icons
-place Pandora.desktop from folder LINUX in /home/postgres/.local/share/applications
+Copy pandora.png from folder LINUX in folder /home/postgres/.icons
+Copy Pandora.desktop from folder LINUX in /home/postgres/.local/share/applications
