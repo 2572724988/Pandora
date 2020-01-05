@@ -991,7 +991,7 @@ def hoofdMenu(m_email):
         mwerknr = ''
         while True:
             accwerk = urenImutaties.urenMut(maccountnr, mwerknr, m_email)
-            #for convenience start with last used worknumber and employee
+            #for convenience start with last used work and employee
             maccountnr = accwerk[0]
             mwerknr = accwerk[1]
     elif mk7 == '1' and mp[7][3] == '1':
