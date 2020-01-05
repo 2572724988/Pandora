@@ -17,6 +17,7 @@ pip3 install pyqt5
 pip3 install pyqtchart
 pip3 install sqlalchemy
 pip3 install psycopg2
+
 Copy .pgpass in /home/postgres 
 for installation postgresql follow steps in:
 https://tecadmin.net/install-postgresql-server-on-ubuntu/
