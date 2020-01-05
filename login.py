@@ -1018,6 +1018,7 @@ def hoofdMenu(m_email):
         mwerknr = ''
         while True:
             accwerk = urenMutaties.urenMut(maccountnr, mwerknr, m_email)
+            #for convenience start with last used work and employee
             maccountnr = accwerk[0]
             mwerknr = accwerk[1]
     elif mk8 == '1' and mp[8][3] == '1':
