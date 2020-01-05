@@ -25,7 +25,7 @@ https://tecadmin.net/install-pgadmin4-on-ubuntu/
 install pgadmin with:
 sudo apt-get install pgadmin4 (without apache)
 set password in pgadmin4: postgres45
-in pgadmin4 create an empty database bisystem, right click databases (login with postgres45) 
+in pgadmin4 tree create an empty database bisystem, right click databases (login with postgres45) 
 In tree pgadmin4 databases bisystem restore from bisystem.backup, right click bisystem.
 Copy Pandora with folder structures in /home/postgres
 
