@@ -177,7 +177,7 @@ def printRaaplijst(keuze, zoekterm, m_email, route):
               raaplijst.c.geleverd < raaplijst.c.afroep, raaplijst.c.artikelID ==\
               artikelen.c.artikelID)).order_by(raaplijst.c.leverdatum)
             kop1 = ''
-            tekst1 = 'Inkooporder/Verkooporder/Webverkooporders/Werkorder/Werknummer '
+            tekst1 = 'Raaplijst Ordernummer '
         elif keuze == 5 and validZt.zt(zoekterm, 2):
             selrl = select([raaplijst, artikelen]).where(and_(raaplijst.c.artikelID == int(zoekterm),\
               raaplijst.c.geleverd < raaplijst.c.afroep, raaplijst.c.artikelID ==\
@@ -195,7 +195,7 @@ def printRaaplijst(keuze, zoekterm, m_email, route):
                  raaplijst.c.geleverd < raaplijst.c.afroep, raaplijst.c.artikelID ==\
                  artikelen.c.artikelID)).order_by(raaplijst.c.leverdatum, raaplijst.c.werkorder)
             kop1 = ''
-            tekst1 = 'Raaplijst Postcode '+zoekterm.upper()+' '
+            tekst1 = 'Raaplijst Postcode '
         elif keuze == 8:
             selrl = select([raaplijst, artikelen]).where(and_(raaplijst.c.geleverd >= raaplijst.c.afroep,\
                raaplijst.c.afroep > 0, raaplijst.c.artikelID == artikelen.c.artikelID))\
@@ -206,39 +206,39 @@ def printRaaplijst(keuze, zoekterm, m_email, route):
             ongInvoer()
             kiesSelektie(route, m_email)
     elif route == 2:
-        if keuze == 1:
+        if keuze == 2:
             selrl = select([raaplijst, artikelen]).where(and_(raaplijst.c.werkorder < 800000000,\
               raaplijst.c.geleverd < raaplijst.c.afroep, raaplijst.c.artikelID ==\
               artikelen.c.artikelID)).order_by(raaplijst.c.leverdatum)
             kop1 = ''
             tekst1 = 'Raaplijst Werkorders '
-        elif keuze == 2 and validZt.zt(zoekterm, 15):
+        elif keuze == 4 and validZt.zt(zoekterm, 15):
             selrl = select([raaplijst, artikelen]).where(and_(raaplijst.c.werkorder < 800000000,\
               raaplijst.c.werkorder == int(zoekterm), raaplijst.c.geleverd < raaplijst.c.afroep,\
               raaplijst.c.artikelID == artikelen.c.artikelID)).order_by(raaplijst.c.leverdatum)
             kop1 = ''
             tekst1 = 'Raaplijst Werkorder '
-        elif keuze == 3 and validZt.zt(zoekterm, 2):
+        elif keuze == 5 and validZt.zt(zoekterm, 2):
             selrl = select([raaplijst, artikelen]).where(and_(raaplijst.c.werkorder < 800000000,\
               raaplijst.c.artikelID == int(zoekterm), raaplijst.c.geleverd < raaplijst.c.afroep,\
               raaplijst.c.artikelID == artikelen.c.artikelID)).order_by(raaplijst.c.leverdatum)
             kop1 = ''
             tekst1 = 'Raaplijst Artikelnummer '       
-        elif keuze == 4 and validZt.zt(zoekterm, 10):
+        elif keuze == 6 and validZt.zt(zoekterm, 10):
             selrl = select([raaplijst, artikelen]).where(and_(raaplijst.c.werkorder < 800000000,\
                 raaplijst.c.leverdatum.like(zoekterm+'%'), raaplijst.c.geleverd < raaplijst.c.afroep,\
                 raaplijst.c.artikelID == artikelen.c.artikelID)).order_by(raaplijst.c.leverdatum,\
                 raaplijst.c.werkorder)
             kop1 = ''
             tekst1 = 'Raaplijst Leverdatum '
-        elif keuze == 5 and validZt.zt(zoekterm, 9):
+        elif keuze == 7 and validZt.zt(zoekterm, 9):
             selrl = select([raaplijst, artikelen]).where(and_(raaplijst.c.werkorder < 800000000,\
                  raaplijst.c.postcode.ilike(zoekterm+'%'),raaplijst.c.geleverd < raaplijst.c.afroep,\
                  raaplijst.c.artikelID == artikelen.c.artikelID)).order_by(raaplijst.c.leverdatum,\
                  raaplijst.c.werkorder)
             kop1 = ''
-            tekst1 = 'Raaplijst Postcode '+zoekterm.upper()+' '
-        elif keuze == 6:
+            tekst1 = 'Raaplijst Postcode '
+        elif keuze == 8:
             selrl = select([raaplijst, artikelen]).where(and_(raaplijst.c.werkorder < 800000000,\
                raaplijst.c.geleverd >= raaplijst.c.afroep, raaplijst.c.afroep > 0,\
                raaplijst.c.artikelID == artikelen.c.artikelID)).order_by(raaplijst.c.werkorder,\
@@ -249,39 +249,39 @@ def printRaaplijst(keuze, zoekterm, m_email, route):
             ongInvoer()
             kiesSelektie(route, m_email)
     elif route == 3:
-        if keuze == 1:
+        if keuze == 3:
             selrl = select([raaplijst, artikelen]).where(and_(raaplijst.c.werkorder > 800000000,\
               raaplijst.c.geleverd < raaplijst.c.afroep, raaplijst.c.artikelID ==\
               artikelen.c.artikelID)).order_by(raaplijst.c.leverdatum)
             kop1 = ''
             tekst1 = 'Raaplijst Werknummers '
-        elif keuze == 2 and validZt.zt(zoekterm, 15):
+        elif keuze == 4 and validZt.zt(zoekterm, 15):
             selrl = select([raaplijst, artikelen]).where(and_(raaplijst.c.werkorder > 800000000,\
               raaplijst.c.werkorder == int(zoekterm), raaplijst.c.geleverd < raaplijst.c.afroep,\
               raaplijst.c.artikelID == artikelen.c.artikelID)).order_by(raaplijst.c.leverdatum)
             kop1 = ''
             tekst1 = 'Raaplijst Werknummer '
-        elif keuze == 3 and validZt.zt(zoekterm, 2):
+        elif keuze == 5 and validZt.zt(zoekterm, 2):
             selrl = select([raaplijst, artikelen]).where(and_(raaplijst.c.werkorder > 800000000,\
               raaplijst.c.artikelID == int(zoekterm), raaplijst.c.geleverd < raaplijst.c.afroep,\
               raaplijst.c.artikelID == artikelen.c.artikelID)).order_by(raaplijst.c.leverdatum)
             kop1 = ''
             tekst1 = 'Raaplijst Artikelnummer '       
-        elif keuze == 4 and validZt.zt(zoekterm, 10):
+        elif keuze == 6 and validZt.zt(zoekterm, 10):
             selrl = select([raaplijst, artikelen]).where(and_(raaplijst.c.werkorder > 800000000,\
                 raaplijst.c.leverdatum.like(zoekterm+'%'), raaplijst.c.geleverd < raaplijst.c.afroep,\
                 raaplijst.c.artikelID == artikelen.c.artikelID)).order_by(raaplijst.c.leverdatum,\
                 raaplijst.c.werkorder)
             kop1 = ''
             tekst1 = 'Raaplijst Leverdatum '
-        elif keuze == 5 and validZt.zt(zoekterm, 9):
+        elif keuze ==7 and validZt.zt(zoekterm, 9):
             selrl = select([raaplijst, artikelen]).where(and_(raaplijst.c.werkorder > 800000000,\
                  raaplijst.c.postcode.ilike(zoekterm+'%'), raaplijst.c.geleverd < raaplijst.c.afroep,\
                  raaplijst.c.artikelID == artikelen.c.artikelID)).order_by(raaplijst.c.leverdatum,\
                  raaplijst.c.werkorder)
             kop1 = ''
-            tekst1 = 'Raaplijst Postcode '+zoekterm.upper()+' '
-        elif keuze == 6:
+            tekst1 = 'Raaplijst Postcode '
+        elif keuze == 8:
             selrl = select([raaplijst, artikelen]).where(and_(raaplijst.c.werkorder > 800000000,\
                 raaplijst.c.geleverd >= raaplijst.c.afroep, raaplijst.c.afroep > 0,\
                 raaplijst.c.artikelID == artikelen.c.artikelID)).order_by(raaplijst.c.werkorder,\
@@ -305,8 +305,8 @@ def printRaaplijst(keuze, zoekterm, m_email, route):
         from sys import platform
         if rgl == 0 or rgl%57 == 0:
             kop4=\
-    (tekst1+str(kop1)+' Datum: '+str(datetime.datetime.now())[0:10]+'  Blad :  '+str(mblad)+'\n'+
-     'Afleveradres '+row[12]+' '+str(row[8])+' '+row[9]+','+row[7]+' '+row[13]+row[10]+'\n'+
+    (tekst1+str(kop1)+' Datum: '+str(datetime.datetime.now())[0:10]+'  Blad :  '+str(mblad)+' '+
+     'Afleveradres '+row[12]+' '+str(row[8])+' '+row[9]+', '+row[7]+' '+row[13]+'.\n'+
     '=============================================================================================\n'+
     'Artikelnr  Omschrijving                       Afroep Geleverd Leverdatum Werkorder  Locatie  \n'+
     '=============================================================================================\n')
@@ -318,19 +318,22 @@ def printRaaplijst(keuze, zoekterm, m_email, route):
   
             if keuze == 2:
                 kop1 = row[2]
-                kop = kop4
+                kop = kop5
             elif keuze == 3:
-                kop1 = row[4]
+                kop1 = row[2]
                 kop = kop5
             elif keuze == 4:
-                kop1 = row[7]
-                kop = kop5
+                kop1 = row[2]
+                kop = kop4
             elif keuze == 5:
                 kop1 = row[1]
                 kop = kop5
             elif keuze == 6:
-                kop1 = row[7]
+                kop1 = row[4]
                 kop = kop5
+            elif keuze == 7:
+                kop1 = row[7]
+                kop = kop4
             else:
                 kop = kop5
             if platform == 'win32':
@@ -386,12 +389,12 @@ def kiesSelektie(route, m_email):
                 k0Edit.setFont(QFont("Arial",10))
                 k0Edit.setStyleSheet("color: black;  background-color: gainsboro")
                 k0Edit.addItem('  Sorteersleutel voor zoeken')
-                k0Edit.addItem('1. Interne werkorders')
-                k0Edit.addItem('2. Per ordernummer')
-                k0Edit.addItem('3. Per artikelnummer')           
-                k0Edit.addItem('4. Op leverdatum')
-                k0Edit.addItem('5. Op Poscode ivm Transport')
-                k0Edit.addItem('6. Uitgeleverde afroepen')
+                k0Edit.addItem('2. Interne werkorders')
+                k0Edit.addItem('4. Per ordernummer')
+                k0Edit.addItem('5. Per artikelnummer')           
+                k0Edit.addItem('6. Op leverdatum')
+                k0Edit.addItem('7. Op Poscode ivm Transport')
+                k0Edit.addItem('8. Uitgeleverde afroepen')
                 k0Edit.activated[str].connect(self.k0Changed)
             elif route == 3:
                 self.Keuze = QLabel()
@@ -400,12 +403,12 @@ def kiesSelektie(route, m_email):
                 k0Edit.setFont(QFont("Arial",10))
                 k0Edit.setStyleSheet("color: black;  background-color: gainsboro")
                 k0Edit.addItem('  Sorteersleutel voor zoeken')
-                k0Edit.addItem('1. Externe werknummers')
-                k0Edit.addItem('2. Per ordernummer')
-                k0Edit.addItem('3. Per artikelnummer')           
-                k0Edit.addItem('4. Op leverdatum')
-                k0Edit.addItem('5. Op Poscode ivm Transport')
-                k0Edit.addItem('6. Uitgeleverde afroepen')
+                k0Edit.addItem('3. Externe werknummers')
+                k0Edit.addItem('4. Per ordernummer')
+                k0Edit.addItem('5. Per artikelnummer')           
+                k0Edit.addItem('6. Op leverdatum')
+                k0Edit.addItem('7. Op Poscode ivm Transport')
+                k0Edit.addItem('8. Uitgeleverde afroepen')
                 k0Edit.activated[str].connect(self.k0Changed)  
                 
             self.Zoekterm = QLabel()
