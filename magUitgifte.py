@@ -158,20 +158,20 @@ def printRaaplijst(keuze, zoekterm, m_email, route):
         if keuze == 1:
             selrl = select([raaplijst, artikelen]).where(and_(raaplijst.c.geleverd < raaplijst.c.afroep,\
                  raaplijst.c.artikelID == artikelen.c.artikelID)).order_by(raaplijst.c.werkorder, raaplijst.c.leverdatum)
-            kop1 = 'Alle Afroepen '
+            kop1 = 'Raaplijst Alle Afroepen '
             tekst1 = ''
         elif keuze == 2:
             selrl = select([raaplijst, artikelen]).where(and_(raaplijst.c.werkorder < 800000000,\
               raaplijst.c.geleverd < raaplijst.c.afroep, raaplijst.c.artikelID ==\
               artikelen.c.artikelID)).order_by(raaplijst.c.leverdatum)
             kop1 = ''
-            tekst1 = 'Werkorders '
+            tekst1 = 'Raaplijst Werkorders '
         elif keuze == 3:
             selrl = select([raaplijst, artikelen]).where(and_(raaplijst.c.werkorder > 800000000,\
               raaplijst.c.geleverd < raaplijst.c.afroep, raaplijst.c.artikelID ==\
               artikelen.c.artikelID)).order_by(raaplijst.c.leverdatum)
             kop1 = ''
-            tekst1 = 'Werknummers '
+            tekst1 = 'Raaplijst Werknummers '
         elif keuze == 4 and validZt.zt(zoekterm, 15):
             selrl = select([raaplijst, artikelen]).where(and_(raaplijst.c.werkorder == int(zoekterm),\
               raaplijst.c.geleverd < raaplijst.c.afroep, raaplijst.c.artikelID ==\
@@ -183,19 +183,19 @@ def printRaaplijst(keuze, zoekterm, m_email, route):
               raaplijst.c.geleverd < raaplijst.c.afroep, raaplijst.c.artikelID ==\
               artikelen.c.artikelID)).order_by(raaplijst.c.leverdatum)
             kop1 = ''
-            tekst1 = 'Artikelnummer '       
+            tekst1 = 'Raaplijst Artikelnummer '       
         elif keuze == 6 and validZt.zt(zoekterm, 10):
             selrl = select([raaplijst, artikelen]).where(and_(raaplijst.c.leverdatum.like(zoekterm+'%'),
                 raaplijst.c.geleverd < raaplijst.c.afroep, raaplijst.c.artikelID ==\
                 artikelen.c.artikelID)).order_by(raaplijst.c.leverdatum, raaplijst.c.werkorder)
             kop1 = ''
-            tekst1 = 'Leverdatum '
+            tekst1 = 'Raaplijst Leverdatum '
         elif keuze == 7 and validZt.zt(zoekterm, 9):
-            selrl = select([raaplijst, artikelen]).where(and_(raaplijst.c.postcode.like(zoekterm+'%'),\
+            selrl = select([raaplijst, artikelen]).where(and_(raaplijst.c.postcode.ilike(zoekterm+'%'),\
                  raaplijst.c.geleverd < raaplijst.c.afroep, raaplijst.c.artikelID ==\
                  artikelen.c.artikelID)).order_by(raaplijst.c.leverdatum, raaplijst.c.werkorder)
             kop1 = ''
-            tekst1 = 'Postcode '+zoekterm+' '
+            tekst1 = 'Raaplijst Postcode '+zoekterm.upper()+' '
         elif keuze == 8:
             selrl = select([raaplijst, artikelen]).where(and_(raaplijst.c.geleverd >= raaplijst.c.afroep,\
                raaplijst.c.afroep > 0, raaplijst.c.artikelID == artikelen.c.artikelID))\
@@ -211,33 +211,33 @@ def printRaaplijst(keuze, zoekterm, m_email, route):
               raaplijst.c.geleverd < raaplijst.c.afroep, raaplijst.c.artikelID ==\
               artikelen.c.artikelID)).order_by(raaplijst.c.leverdatum)
             kop1 = ''
-            tekst1 = 'Werkorders '
+            tekst1 = 'Raaplijst Werkorders '
         elif keuze == 2 and validZt.zt(zoekterm, 15):
             selrl = select([raaplijst, artikelen]).where(and_(raaplijst.c.werkorder < 800000000,\
               raaplijst.c.werkorder == int(zoekterm), raaplijst.c.geleverd < raaplijst.c.afroep,\
               raaplijst.c.artikelID == artikelen.c.artikelID)).order_by(raaplijst.c.leverdatum)
             kop1 = ''
-            tekst1 = 'Werkorder '
+            tekst1 = 'Raaplijst Werkorder '
         elif keuze == 3 and validZt.zt(zoekterm, 2):
             selrl = select([raaplijst, artikelen]).where(and_(raaplijst.c.werkorder < 800000000,\
               raaplijst.c.artikelID == int(zoekterm), raaplijst.c.geleverd < raaplijst.c.afroep,\
               raaplijst.c.artikelID == artikelen.c.artikelID)).order_by(raaplijst.c.leverdatum)
             kop1 = ''
-            tekst1 = 'Artikelnummer '       
+            tekst1 = 'Raaplijst Artikelnummer '       
         elif keuze == 4 and validZt.zt(zoekterm, 10):
             selrl = select([raaplijst, artikelen]).where(and_(raaplijst.c.werkorder < 800000000,\
                 raaplijst.c.leverdatum.like(zoekterm+'%'), raaplijst.c.geleverd < raaplijst.c.afroep,\
                 raaplijst.c.artikelID == artikelen.c.artikelID)).order_by(raaplijst.c.leverdatum,\
                 raaplijst.c.werkorder)
             kop1 = ''
-            tekst1 = 'Leverdatum '
+            tekst1 = 'Raaplijst Leverdatum '
         elif keuze == 5 and validZt.zt(zoekterm, 9):
             selrl = select([raaplijst, artikelen]).where(and_(raaplijst.c.werkorder < 800000000,\
-                 raaplijst.c.postcode.like(zoekterm+'%'),raaplijst.c.geleverd < raaplijst.c.afroep,\
+                 raaplijst.c.postcode.ilike(zoekterm+'%'),raaplijst.c.geleverd < raaplijst.c.afroep,\
                  raaplijst.c.artikelID == artikelen.c.artikelID)).order_by(raaplijst.c.leverdatum,\
                  raaplijst.c.werkorder)
             kop1 = ''
-            tekst1 = 'Postcode '+zoekterm+' '
+            tekst1 = 'Raaplijst Postcode '+zoekterm.upper()+' '
         elif keuze == 6:
             selrl = select([raaplijst, artikelen]).where(and_(raaplijst.c.werkorder < 800000000,\
                raaplijst.c.geleverd >= raaplijst.c.afroep, raaplijst.c.afroep > 0,\
@@ -254,33 +254,33 @@ def printRaaplijst(keuze, zoekterm, m_email, route):
               raaplijst.c.geleverd < raaplijst.c.afroep, raaplijst.c.artikelID ==\
               artikelen.c.artikelID)).order_by(raaplijst.c.leverdatum)
             kop1 = ''
-            tekst1 = 'Werknummers '
+            tekst1 = 'Raaplijst Werknummers '
         elif keuze == 2 and validZt.zt(zoekterm, 15):
             selrl = select([raaplijst, artikelen]).where(and_(raaplijst.c.werkorder > 800000000,\
               raaplijst.c.werkorder == int(zoekterm), raaplijst.c.geleverd < raaplijst.c.afroep,\
               raaplijst.c.artikelID == artikelen.c.artikelID)).order_by(raaplijst.c.leverdatum)
             kop1 = ''
-            tekst1 = 'Werknummer '
+            tekst1 = 'Raaplijst Werknummer '
         elif keuze == 3 and validZt.zt(zoekterm, 2):
             selrl = select([raaplijst, artikelen]).where(and_(raaplijst.c.werkorder > 800000000,\
               raaplijst.c.artikelID == int(zoekterm), raaplijst.c.geleverd < raaplijst.c.afroep,\
               raaplijst.c.artikelID == artikelen.c.artikelID)).order_by(raaplijst.c.leverdatum)
             kop1 = ''
-            tekst1 = 'Artikelnummer '       
+            tekst1 = 'Raaplijst Artikelnummer '       
         elif keuze == 4 and validZt.zt(zoekterm, 10):
             selrl = select([raaplijst, artikelen]).where(and_(raaplijst.c.werkorder > 800000000,\
                 raaplijst.c.leverdatum.like(zoekterm+'%'), raaplijst.c.geleverd < raaplijst.c.afroep,\
                 raaplijst.c.artikelID == artikelen.c.artikelID)).order_by(raaplijst.c.leverdatum,\
                 raaplijst.c.werkorder)
             kop1 = ''
-            tekst1 = 'Leverdatum '
+            tekst1 = 'Raaplijst Leverdatum '
         elif keuze == 5 and validZt.zt(zoekterm, 9):
             selrl = select([raaplijst, artikelen]).where(and_(raaplijst.c.werkorder > 800000000,\
-                 raaplijst.c.postcode.like(zoekterm+'%'), raaplijst.c.geleverd < raaplijst.c.afroep,\
+                 raaplijst.c.postcode.ilike(zoekterm+'%'), raaplijst.c.geleverd < raaplijst.c.afroep,\
                  raaplijst.c.artikelID == artikelen.c.artikelID)).order_by(raaplijst.c.leverdatum,\
                  raaplijst.c.werkorder)
             kop1 = ''
-            tekst1 = 'Postcode '+zoekterm+' '
+            tekst1 = 'Raaplijst Postcode '+zoekterm.upper()+' '
         elif keuze == 6:
             selrl = select([raaplijst, artikelen]).where(and_(raaplijst.c.werkorder > 800000000,\
                 raaplijst.c.geleverd >= raaplijst.c.afroep, raaplijst.c.afroep > 0,\
@@ -329,6 +329,7 @@ def printRaaplijst(keuze, zoekterm, m_email, route):
                 kop1 = row[1]
                 kop = kop5
             elif keuze == 6:
+                kop1 = row[7]
                 kop = kop5
             else:
                 kop = kop5
@@ -485,7 +486,7 @@ def kiesSelektie(route, m_email):
     else:
         keuze = 0
     if data[1]:
-        zoekterm = data[1]
+        zoekterm = data[1].upper()
     else:
         zoekterm = ''
     if route == 0:
@@ -612,8 +613,8 @@ def raapLijst(keuze, zoekterm, m_email, route):
         selafr = select([raaplijst]).where(and_(raaplijst.c.leverdatum.like(zoekterm+'%'),
                 raaplijst.c.geleverd < raaplijst.c.afroep))\
             .order_by(raaplijst.c.leverdatum, raaplijst.c.werkorder)
-    elif keuze == 7 and validZt.zt(zoekterm.upper(), 9):
-        selafr = select([raaplijst]).where(and_(raaplijst.c.postcode.like(zoekterm.upper()+'%'),\
+    elif keuze == 7 and validZt.zt(zoekterm, 9):
+        selafr = select([raaplijst]).where(and_(raaplijst.c.postcode.ilike(zoekterm+'%'),\
              raaplijst.c.geleverd < raaplijst.c.afroep))\
             .order_by(raaplijst.c.leverdatum, raaplijst.c.werkorder)
     elif keuze == 8:
