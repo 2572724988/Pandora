@@ -306,7 +306,7 @@ def printRaaplijst(keuze, zoekterm, m_email, route):
         if rgl == 0 or rgl%57 == 0:
             kop4=\
     (tekst1+str(kop1)+' Datum: '+str(datetime.datetime.now())[0:10]+'  Blad :  '+str(mblad)+' '+
-     'Afleveradres '+row[12]+' '+str(row[8])+' '+row[9]+', '+row[7]+' '+row[13]+'.\n'+
+     'Afleveradres '+row[12]+' '+str(row[8])+row[9]+', '+row[7]+' '+row[13]+'.\n'+
     '=============================================================================================\n'+
     'Artikelnr  Omschrijving                       Afroep Geleverd Leverdatum Werkorder  Locatie  \n'+
     '=============================================================================================\n')
