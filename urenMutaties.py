@@ -133,7 +133,7 @@ def urenMut(maccountnr, mwerknr, m_email):
             urenEdit.setFixedWidth(150)
             urenEdit.setFont(QFont("Arial",10))
             urenEdit.textChanged.connect(self.urenChanged) 
-            reg_ex = QRegExp("^[0-9.]{0,9}$")
+            reg_ex = QRegExp("^[0-9.-]{0,9}$")
             input_validator = QRegExpValidator(reg_ex, urenEdit)
             urenEdit.setValidator(input_validator)
             
@@ -331,7 +331,7 @@ def urenMut(maccountnr, mwerknr, m_email):
         mwerknr = 1
         werkGereed()
         return(maccountnr, mwerknr)
-    elif not data[3] or int(data[3]) == 0:
+    elif not data[3] or data[3] == '0':
         print(data[3], type(data[3]))
         geenUren()
         return(maccountnr, mwerknr)
