@@ -303,36 +303,35 @@ def printRaaplijst(keuze, zoekterm, m_email, route):
 
     for row in rprl:
         from sys import platform
-        kop4=\
+        if rgl == 0 or rgl%57 == 0:
+            kop4=\
     (tekst1+str(kop1)+' Datum: '+str(datetime.datetime.now())[0:10]+'  Blad :  '+str(mblad)+'\n'+
      'Afleveradres '+row[12]+' '+str(row[8])+' '+row[9]+','+row[7]+' '+row[13]+row[10]+'\n'+
     '=============================================================================================\n'+
     'Artikelnr  Omschrijving                       Afroep Geleverd Leverdatum Werkorder  Locatie  \n'+
     '=============================================================================================\n')
-        kop5=\
+            kop5=\
     (tekst1+str(kop1)+' Datum: '+str(datetime.datetime.now())[0:10]+'  Blad :  '+str(mblad)+'\n'+
     '=============================================================================================\n'+
     'Artikelnr  Omschrijving                       Afroep Geleverd Leverdatum Werkorder  Locatie  \n'+
     '=============================================================================================\n')
   
-        if keuze == 2:
-            kop1 = row[2]
-            kop = kop4
-        elif keuze == 3:
-            kop1 = row[4]
-            kop = kop5
-        elif keuze == 4:
-            kop1 = row[7]
-            kop = kop5
-        elif keuze == 5:
-            kop1 = row[1]
-            kop = kop5
-        elif keuze == 6:
-            kop = kop5
-        else:
-            kop = kop5
-            
-        if rgl == 0 or rgl%57 == 0:
+            if keuze == 2:
+                kop1 = row[2]
+                kop = kop4
+            elif keuze == 3:
+                kop1 = row[4]
+                kop = kop5
+            elif keuze == 4:
+                kop1 = row[7]
+                kop = kop5
+            elif keuze == 5:
+                kop1 = row[1]
+                kop = kop5
+            elif keuze == 6:
+                kop = kop5
+            else:
+                kop = kop5
             if platform == 'win32':
                 filename = '.\\forms\\Raaplijsten\\raaplijst-'+str(kop1)+'-'+str(datetime.datetime.now())[0:10]+'.txt'
             else:
@@ -613,8 +612,8 @@ def raapLijst(keuze, zoekterm, m_email, route):
         selafr = select([raaplijst]).where(and_(raaplijst.c.leverdatum.like(zoekterm+'%'),
                 raaplijst.c.geleverd < raaplijst.c.afroep))\
             .order_by(raaplijst.c.leverdatum, raaplijst.c.werkorder)
-    elif keuze == 7 and validZt.zt(zoekterm, 9):
-        selafr = select([raaplijst]).where(and_(raaplijst.c.postcode.like(zoekterm+'%'),\
+    elif keuze == 7 and validZt.zt(zoekterm.upper(), 9):
+        selafr = select([raaplijst]).where(and_(raaplijst.c.postcode.like(zoekterm.upper()+'%'),\
              raaplijst.c.geleverd < raaplijst.c.afroep))\
             .order_by(raaplijst.c.leverdatum, raaplijst.c.werkorder)
     elif keuze == 8:
@@ -657,19 +656,10 @@ def raapLijst(keuze, zoekterm, m_email, route):
             
             engine = create_engine('postgresql+psycopg2://postgres@localhost/bisystem')
             con = engine.connect()
-            if keuze == 7:
-                selrlr = select([raaplijst]).where(and_(raaplijst.c.lijstID == mlijstnr,\
-                             raaplijst.c.geleverd >= raaplijst.c.afroep))
-                rprlr = con.execute(selrlr).first()
-            elif keuze == 8:
-                selrlr = select([raaplijst]).where(and_(raaplijst.c.lijstID == mlijstnr,\
-                         raaplijst.c.geleverd >= raaplijst.c.afroep))
-                rprlr = con.execute(selrlr).first()     
-            else:
-                selrlr = select([raaplijst]).where(and_(raaplijst.c.lijstID == mlijstnr,\
-                             raaplijst.c.geleverd < raaplijst.c.afroep))
-                rprlr = con.execute(selrlr).first()
-            
+      
+            selrlr = select([raaplijst]).where(raaplijst.c.lijstID == mlijstnr)                           
+            rprlr = con.execute(selrlr).first()
+           
             mwerknr = rprlr[2]
             martnr = rprlr[1]
             mleverdat = rprlr[4]
