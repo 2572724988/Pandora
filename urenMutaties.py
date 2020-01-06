@@ -332,7 +332,6 @@ def urenMut(maccountnr, mwerknr, m_email):
         werkGereed()
         return(maccountnr, mwerknr)
     elif not data[3] or data[3] == '0':
-        print(data[3], type(data[3]))
         geenUren()
         return(maccountnr, mwerknr)
     elif data[3] and keuze == '100%' and mstatus:
