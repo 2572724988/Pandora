@@ -457,7 +457,7 @@ def toonMutaties(keuze,zoekterm, m_email):
                     q2Edit.setFixedWidth(150)
                     q2Edit.setFont(QFont("Arial",10))
                     q2Edit.textChanged.connect(self.q2Changed) 
-                    reg_ex = QRegExp("^[0-9.]{0,12}$")
+                    reg_ex = QRegExp("^[0-9.-]{0,12}$")
                     input_validator = QRegExpValidator(reg_ex, q2Edit)
                     q2Edit.setValidator(input_validator)      
             
@@ -573,8 +573,9 @@ def toonMutaties(keuze,zoekterm, m_email):
             data = window.getData()
             if data[0]:
                 mbedrag = float(data[0])
-            else:
-                mbedrag = 0
+            elif not data[0] or data[0] == '0':
+                geenBedrag()
+                return()
             if data[1]:
                 momschr = data[1]
             else:
@@ -644,8 +645,6 @@ def toonMutaties(keuze,zoekterm, m_email):
             rps = con.execute(s).first()
             if not rps:
                 foutCombinatie() 
-            elif not mbedrag:
-                geenBedrag()
             elif data[0] and msoort[0] == '1' and mmmwerk:
                 sel = select([orders_inkoop])\
                   .where(orders_inkoop.c.orderinkoopID == minkordernr)
