@@ -220,7 +220,7 @@ def inlog():
             grid.addWidget(wachtwEdit, 4, 2)
                                    
             self.setLayout(grid)
-            self.setGeometry(400, 250, 150, 150)
+            self.setGeometry(600, 250, 150, 150)
             
             applyBtn = QPushButton('Login')
             applyBtn.clicked.connect(self.accept)
@@ -644,7 +644,7 @@ def hoofdMenu(m_email):
             grid.addWidget(QLabel('\u00A9 2017 all rights reserved dj.jansen@casema.nl'), 14, 0, 1, 3, Qt.AlignCenter)
             
             self.setLayout(grid)
-            self.setGeometry(500, 100, 150, 150)
+            self.setGeometry(600, 100, 150, 150)
             
             applyBtn = QPushButton('Kiezen')
             applyBtn.clicked.connect(self.accept)
@@ -991,7 +991,7 @@ def hoofdMenu(m_email):
         mwerknr = ''
         while True:
             accwerk = urenImutaties.urenMut(maccountnr, mwerknr, m_email)
-            #for convenience start with last used work and employee
+	    #for convenience start with last used work and employee
             maccountnr = accwerk[0]
             mwerknr = accwerk[1]
     elif mk7 == '1' and mp[7][3] == '1':
@@ -1018,7 +1018,7 @@ def hoofdMenu(m_email):
         mwerknr = ''
         while True:
             accwerk = urenMutaties.urenMut(maccountnr, mwerknr, m_email)
-            #for convenience start with last used work and employee
+	    #for convenience start with last used work and employee
             maccountnr = accwerk[0]
             mwerknr = accwerk[1]
     elif mk8 == '1' and mp[8][3] == '1':
